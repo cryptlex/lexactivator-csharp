@@ -11,22 +11,26 @@ namespace Sample
         {
             InitializeComponent();
             int status;
-            status = LexActivator.SetProductFile("Product.dat");
+            // status = LexActivator.SetProductFile ("ABSOLUTE_PATH_OF_PRODUCT.DAT_FILE");
+            status = LexActivator.SetProductData("PASTE_CONTENT_OF_PRODUCT.DAT_FILE");
             if (status != LexActivator.LA_OK)
             {
                 this.statusLabel.Text = "Error setting product file: " + status.ToString();
                 return;
             }
-            status = LexActivator.SetVersionGUID("59A44CE9-5415-8CF3-BD54-EA73A64E9A1B", LexActivator.PermissionFlags.LA_USER);
+            status = LexActivator.SetProductVersionGuid("PASTE_PRODUCT_VERSION_GUID", LexActivator.PermissionFlags.LA_USER);
             if (status != LexActivator.LA_OK)
             {
                 this.statusLabel.Text = "Error setting version GUID: " + status.ToString();
                 return;
             }
             status = LexActivator.IsProductGenuine();
-            if(status == LexActivator.LA_OK || status == LexActivator.LA_GP_OVER)
+            if(status == LexActivator.LA_OK || status == LexActivator.LA_EXPIRED || status == LexActivator.LA_REVOKED || status == LexActivator.LA_GP_OVER)
             {
-                this.statusLabel.Text = "Product genuinely activated!";
+                //uint expiryDate = 0;
+                //LexActivator.GetProductKeyExpiryDate(ref expiryDate);
+                //int daysLeft = (int)(expiryDate - unixTimestamp()) / 86500;
+                this.statusLabel.Text = "Product genuinely activated! Activation Status: " + status.ToString();
                 this.activateBtn.Text = "Deactivate";
                 this.activateTrialBtn.Enabled = false;
                 return;
@@ -34,8 +38,9 @@ namespace Sample
             status = LexActivator.IsTrialGenuine();
             if (status == LexActivator.LA_OK)
             {
-                uint daysLeft = 0;
-                LexActivator.GetTrialDaysLeft(ref daysLeft, LexActivator.TrialType.LA_V_TRIAL);
+                uint trialExpiryDate = 0;
+                LexActivator.GetTrialExpiryDate(ref trialExpiryDate);
+                int daysLeft = (int)(trialExpiryDate - unixTimestamp()) / 86500;
                 this.statusLabel.Text = "Trial period! Days left:" + daysLeft.ToString();
                 this.activateTrialBtn.Enabled = false;
             }
@@ -71,7 +76,12 @@ namespace Sample
                 this.statusLabel.Text = "Error setting product key: " + status.ToString();
                 return;
             }
-            LexActivator.SetExtraActivationData("sample data");
+            status = LexActivator.SetActivationExtraData("SAMPLE DATA");
+            if (status != LexActivator.LA_OK)
+            {
+                this.statusLabel.Text = "Error setting activation extra data: " + status.ToString();
+                return;
+            }
             status = LexActivator.ActivateProduct();
             if (status != LexActivator.LA_OK)
             {
@@ -90,10 +100,10 @@ namespace Sample
         private void activateTrialBtn_Click(object sender, EventArgs e)
         {
             int status;
-            status = LexActivator.SetTrialKey("CCEAF69B-144EDE48-B763AE2F-A0957C93-98827434");
+            status = LexActivator.SetTrialActivationExtraData("SAMPLE DATA");
             if (status != LexActivator.LA_OK)
             {
-                this.statusLabel.Text = "Error setting trial key: " + status.ToString();
+                this.statusLabel.Text = "Error setting activation extra data: " + status.ToString();
                 return;
             }
             status = LexActivator.ActivateTrial();
@@ -106,6 +116,11 @@ namespace Sample
             {
                 this.statusLabel.Text = "Trial started Successful";
             }
+        }
+
+        private uint unixTimestamp()
+        {
+            return (uint)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
     }
 }

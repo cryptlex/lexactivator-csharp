@@ -682,7 +682,29 @@ namespace Cryptlex
             return Native.IsLocalTrialGenuine(); 
 #endif
         }
-        
+
+        /*
+	        FUNCTION: ExtendLocalTrial()
+
+	        PURPOSE: Extends the local trial
+
+	        PARAMETERS:
+	        * trialExtensionLength - number of days to extend the trial
+
+	        RETURN CODES: LA_OK, LA_FAIL, LA_E_GUID, LA_E_TIME, LA_E_LOCAL_TRIAL_NOT_EXPIRED
+
+	        NOTE: The function is only meant for unverified trials.
+        */
+
+        public static int ExtendLocalTrial(uint trialExtensionLength)
+        {
+#if LA_ANY_CPU 
+            return IntPtr.Size == 8 ? Native.ExtendLocalTrial_x64(trialExtensionLength) : Native.ExtendLocalTrial(trialExtensionLength);
+#else 
+            return Native.ExtendLocalTrial(trialExtensionLength);
+#endif
+        }
+
 
         /*** Return Codes ***/
 
@@ -716,20 +738,22 @@ namespace Cryptlex
         public const int LA_GP_OVER = 4;
 
         /*
-            CODE: LA_E_INET
+            CODE: LA_T_EXPIRED
 
-            MESSAGE: Failed to connect to the server due to network error.
+            MESSAGE: The trial has expired or system time has been tampered
+            with. Ensure your date and time settings are correct.
         */
 
-        public const int LA_E_INET = 5;
+        public const int LA_T_EXPIRED = 5;
 
         /*
-            CODE: LA_E_PKEY
+            CODE: LA_LT_EXPIRED
 
-            MESSAGE: Invalid product key.
+            MESSAGE: The local trial has expired or system time has been tampered
+            with. Ensure your date and time settings are correct.
         */
 
-        public const int LA_E_PKEY = 6;
+        public const int LA_LT_EXPIRED = 6;
 
         /*
             CODE: LA_E_PFILE
@@ -834,22 +858,20 @@ namespace Cryptlex
         public const int LA_E_OFILE_EXPIRED  = 18;
 
         /*
-            CODE: LA_T_EXPIRED
+            CODE: LA_E_INET
 
-            MESSAGE: The trial has expired or system time has been tampered
-            with. Ensure your date and time settings are correct.
+            MESSAGE: Failed to connect to the server due to network error.
         */
 
-        public const int LA_T_EXPIRED = 19;
+        public const int LA_E_INET = 19;
 
         /*
-            CODE: LA_LT_EXPIRED
+            CODE: LA_E_PKEY
 
-            MESSAGE: The local trial has expired or system time has been tampered
-            with. Ensure your date and time settings are correct.
+            MESSAGE: Invalid product key.
         */
 
-        public const int LA_LT_EXPIRED = 20;
+        public const int LA_E_PKEY = 20;
 
         /*
             CODE: LA_E_BUFFER_SIZE
@@ -900,60 +922,68 @@ namespace Cryptlex
         public const int LA_E_ACT_LIMIT = 26;
 
         /*
-        CODE: LA_E_PDATA
+            CODE: LA_E_PDATA
 
-        MESSAGE: Invalid product data
+            MESSAGE: Invalid product data
         */
 
         public const int LA_E_PDATA = 27;
 
         /*
-        CODE: LA_E_TRIAL_NOT_EXPIRED
+            CODE: LA_E_TRIAL_NOT_EXPIRED
 
-        MESSAGE: Trial has not expired.
+            MESSAGE: Trial has not expired.
         */
 
         public const int LA_E_TRIAL_NOT_EXPIRED = 28;
 
         /*
-        CODE: LA_E_COUNTRY
+            CODE: LA_E_COUNTRY
 
-        MESSAGE: Country is not allowed
+            MESSAGE: Country is not allowed
         */
 
         public const int LA_E_COUNTRY = 29;
 
         /*
-        CODE: LA_E_IP
+            CODE: LA_E_IP
 
-        MESSAGE: IP address is not allowed
+            MESSAGE: IP address is not allowed
         */
 
         public const int LA_E_IP = 30;
 
         /*
-        CODE: LA_E_FILE_PERMISSION
+            CODE: LA_E_FILE_PERMISSION
 
-        MESSAGE: No permission to write to file
+            MESSAGE: No permission to write to file
         */
 
         public const int LA_E_FILE_PERMISSION = 31;
 
         /*
-        CODE: LA_E_SERVER
+            CODE: LA_E_LOCAL_TRIAL_NOT_EXPIRED
 
-        MESSAGE: Server error
+            MESSAGE: Trial has not expired.
         */
 
-        public const int LA_E_SERVER = 32;
+        public const int LA_E_LOCAL_TRIAL_NOT_EXPIRED = 32;
 
         /*
-        CODE: LA_E_CLIENT
+            CODE: LA_E_SERVER
 
-        MESSAGE: Client error
+            MESSAGE: Server error
         */
 
-        public const int LA_E_CLIENT = 33;
+        public const int LA_E_SERVER = 33;
+
+        /*
+            CODE: LA_E_CLIENT
+
+            MESSAGE: Client error
+        */
+
+        public const int LA_E_CLIENT = 34;
 
 
 
@@ -1043,6 +1073,9 @@ namespace Cryptlex
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int IsLocalTrialGenuine();
 
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int ExtendLocalTrial(uint trialExtensionLength);
+
 #if LA_ANY_CPU
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetProductFile", CallingConvention = CallingConvention.Cdecl)]
@@ -1128,6 +1161,9 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "IsLocalTrialGenuine", CallingConvention = CallingConvention.Cdecl)]
             public static extern int IsLocalTrialGenuine_x64();
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ExtendLocalTrial", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int ExtendLocalTrial_x64(uint trialExtensionLength);
             
 #endif
         }
