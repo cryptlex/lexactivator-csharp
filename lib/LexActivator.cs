@@ -645,7 +645,7 @@ namespace Cryptlex
             the user's computer, ideally on a button click.
 
             PARAMETERS:
-            * trialLength - trial length as set in the dashboard for the product version
+            * trialLength - trial length in days
 
             RETURN CODES: LA_OK, LA_LT_EXPIRED, LA_FAIL, LA_E_GUID, LA_E_TIME
 
