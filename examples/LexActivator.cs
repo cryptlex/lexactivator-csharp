@@ -1084,7 +1084,7 @@ namespace Cryptlex
 
                 MESSAGE: Client error.
             */
-            LA_E_CLIENT = 73,
+            LA_E_CLIENT = 73
         };
 
 
@@ -1189,6 +1189,9 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int ExtendLocalTrial(uint trialExtensionLength);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int Reset();
 
 #if LA_ANY_CPU
 
