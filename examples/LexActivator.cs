@@ -479,7 +479,7 @@ namespace Cryptlex
 
             RETURN CODES: LA_OK, LA_EXPIRED, LA_SUSPENDED, LA_E_REVOKED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_LICENSE_KEY,
             LA_E_INET, LA_E_VM, LA_E_TIME, LA_E_ACTIVATION_LIMIT, LA_E_SERVER, LA_E_CLIENT, LA_USAGE_LIMIT_REACHED
-            LA_E_LICENSE_KEY_TYPE, LA_E_COUNTRY, LA_E_IP, LA_E_RATE_LIMIT
+            LA_E_LICENSE_TYPE, LA_E_COUNTRY, LA_E_IP, LA_E_RATE_LIMIT
         */
         public static int ActivateLicense()
         {
@@ -684,7 +684,6 @@ namespace Cryptlex
             This function must be called on every start of your program during the trial period.
 
             RETURN CODES: LA_OK, LA_TRIAL_EXPIRED, LA_FAIL, LA_E_TIME, LA_E_PRODUCT_ID
-
         */
         public static int IsTrialGenuine()
         {
@@ -952,7 +951,7 @@ namespace Cryptlex
             LA_E_LICENSE_KEY = 54,
 
             /*
-                CODE: LA_E_LICENSE_KEY_TYPE
+                CODE: LA_E_LICENSE_TYPE
 
                 MESSAGE: Invalid license type. Make sure floating license
                 is not being used.
