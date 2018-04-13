@@ -85,7 +85,7 @@ namespace Cryptlex
 
             PARAMETERS:
             * productId - the unique product id of your application as mentioned
-            on the product page of your application in the dashboard.
+            on the product page in the dashboard.
 
             * flags - depending upon whether your application requires admin/root
             permissions to run or not, this parameter can have one of the following
@@ -276,7 +276,7 @@ namespace Cryptlex
 
             PARAMETERS:
             * licenseKey - pointer to a buffer that receives the value of the string
-            * length - size of the buffer pointed to by the productKey parameter
+            * length - size of the buffer pointed to by the licenseKey parameter
 
             RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_BUFFER_SIZE
         */
@@ -354,7 +354,7 @@ namespace Cryptlex
 
             PARAMETERS:
             * name - pointer to a buffer that receives the value of the string
-            * length - size of the buffer pointed to by the productKeyEmail parameter
+            * length - size of the buffer pointed to by the name parameter
 
             RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_BUFFER_SIZE
         */
@@ -500,7 +500,7 @@ namespace Cryptlex
             * filePath - path of the offline activation response file.
 
             RETURN CODES: LA_OK, LA_EXPIRED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_OFFLINE_RESPONSE_FILE
-            LA_E_VM, LA_E_TIME, LA_E_FILE_PATH, LA_E_OFFLINE_RESPONSE_FILE_EXPIRED
+            LA_E_VM, LA_E_TIME, LA_E_FILE_PATH, LA_E_OFFLINE_RESPONSE_FILE_EXPIRED, LA_USAGE_LIMIT_REACHED
         */
         public static int ActivateLicenseOffline(string filePath)
         {
@@ -584,8 +584,7 @@ namespace Cryptlex
             activation.
 
             After verifying locally, it schedules a server check in a separate thread. After the
-            first server sync it periodically does further syncs at a frequency set for the product
-            key.
+            first server sync it periodically does further syncs at a frequency set for the license.
 
             In case server sync fails due to network error, and it continues to fail for fixed
             number of days (grace period), the function returns LA_GRACE_PERIOD_OVER instead of LA_OK.
@@ -596,7 +595,7 @@ namespace Cryptlex
             RETURN CODES: LA_OK, LA_EXPIRED, LA_SUSPENDED, LA_GRACE_PERIOD_OVER, LA_FAIL,
             LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_TIME, LA_USAGE_LIMIT_REACHED
 
-            NOTE: If application was activated offline using ActivateProductOffline() function, you
+            NOTE: If application was activated offline using ActivateLicenseOffline() function, you
             may want to set grace period to 0 to ignore grace period.
         */
         public static int IsLicenseGenuine()
@@ -747,7 +746,7 @@ namespace Cryptlex
             PARAMETERS:
             * trialExtensionLength - number of days to extend the trial
 
-            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_LOCAL_TRIAL_NOT_EXPIRED
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME
 
             NOTE: The function is only meant for local(unverified) trials.
         */
