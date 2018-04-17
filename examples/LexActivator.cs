@@ -979,67 +979,74 @@ namespace Cryptlex
             public const int LA_E_ACTIVATION_LIMIT = 58;
 
             /*
+                CODE: LA_E_ACTIVATION_NOT_FOUND
+
+                MESSAGE: The license activation was deleted on the server.
+            */
+            public const int LA_E_ACTIVATION_NOT_FOUND = 59,
+
+            /*
                 CODE: LA_E_DEACTIVATION_LIMIT
 
                 MESSAGE: The license has reached it's allowed deactivations limit.
             */
-            public const int LA_E_DEACTIVATION_LIMIT = 59;
+            public const int LA_E_DEACTIVATION_LIMIT = 60;
 
             /*
                 CODE: LA_E_TRAIL_NOT_ALLOWED
 
                 MESSAGE: Trial not allowed for the product.
             */
-            public const int LA_E_TRAIL_NOT_ALLOWED = 60;
+            public const int LA_E_TRAIL_NOT_ALLOWED = 61;
 
             /*
                 CODE: LA_E_TRIAL_ACTIVATION_LIMIT
 
                 MESSAGE: Your account has reached it's trial activations limit.
             */
-            public const int LA_E_TRIAL_ACTIVATION_LIMIT = 61;
+            public const int LA_E_TRIAL_ACTIVATION_LIMIT = 62;
 
             /*
                 CODE: LA_E_MACHINE_FINGERPRINT
 
                 MESSAGE: Machine fingerprint has changed since activation.
             */
-            public const int LA_E_MACHINE_FINGERPRINT = 62;
+            public const int LA_E_MACHINE_FINGERPRINT = 63;
 
             /*
                 CODE: LA_E_METADATA_KEY_LENGTH
 
                 MESSAGE: Metadata key length is more than 256 characters.
             */
-            public const int LA_E_METADATA_KEY_LENGTH = 63;
+            public const int LA_E_METADATA_KEY_LENGTH = 64;
 
             /*
                 CODE: LA_E_METADATA_VALUE_LENGTH
 
                 MESSAGE: Metadata value length is more than 256 characters.
             */
-            public const int LA_E_METADATA_VALUE_LENGTH = 64;
+            public const int LA_E_METADATA_VALUE_LENGTH = 65;
 
             /*
                 CODE: LA_E_ACTIVATION_METADATA_LIMIT
 
                 MESSAGE: The license has reached it's metadata fields limit.
             */
-            public const int LA_E_ACTIVATION_METADATA_LIMIT = 65;
+            public const int LA_E_ACTIVATION_METADATA_LIMIT = 66;
 
             /*
                 CODE: LA_E_TRIAL_ACTIVATION_METADATA_LIMIT
 
                 MESSAGE: The trial has reached it's metadata fields limit.
             */
-            public const int LA_E_TRIAL_ACTIVATION_METADATA_LIMIT = 66;
+            public const int LA_E_TRIAL_ACTIVATION_METADATA_LIMIT = 67;
 
             /*
                 CODE: LA_E_METADATA_KEY_NOT_FOUND
 
                 MESSAGE: The metadata key does not exist.
             */
-            public const int LA_E_METADATA_KEY_NOT_FOUND = 67;
+            public const int LA_E_METADATA_KEY_NOT_FOUND = 68;
 
             /*
                 CODE: LA_E_VM
@@ -1047,42 +1054,42 @@ namespace Cryptlex
                 MESSAGE: Application is being run inside a virtual machine / hypervisor,
                 and activation has been disallowed in the VM.
             */
-            public const int LA_E_VM = 68;
+            public const int LA_E_VM = 80;
 
             /*
                 CODE: LA_E_COUNTRY
 
                 MESSAGE: Country is not allowed.
             */
-            public const int LA_E_COUNTRY = 69;
+            public const int LA_E_COUNTRY = 81;
 
             /*
                 CODE: LA_E_IP
 
                 MESSAGE: IP address is not allowed.
             */
-            public const int LA_E_IP = 70;
+            public const int LA_E_IP = 82;
 
             /*
                 CODE: LA_E_RATE_LIMIT
 
                 MESSAGE: Rate limit for API has reached, try again later.
             */
-            public const int LA_E_RATE_LIMIT = 71;
+            public const int LA_E_RATE_LIMIT = 90;
 
             /*
                 CODE: LA_E_SERVER
 
                 MESSAGE: Server error.
             */
-            public const int LA_E_SERVER = 72;
+            public const int LA_E_SERVER = 91;
 
             /*
                 CODE: LA_E_CLIENT
 
                 MESSAGE: Client error.
             */
-            public const int LA_E_CLIENT = 73;
+            public const int LA_E_CLIENT = 92;
         };
 
 
