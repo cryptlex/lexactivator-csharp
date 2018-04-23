@@ -83,16 +83,16 @@ namespace Sample
                 return;
             }
             status = LexActivator.ActivateLicense();
-            if (status != LexActivator.StatusCodes.LA_OK)
+            if (status == LexActivator.StatusCodes.LA_OK || status == LexActivator.StatusCodes.LA_EXPIRED || status == LexActivator.StatusCodes.LA_SUSPENDED)            
             {
-                this.statusLabel.Text = "Error activating the license: " + status.ToString();
-                return;
+                this.statusLabel.Text = "Activation Successful :" + status.ToString();
+                this.activateBtn.Text = "Deactivate";
+                this.activateTrialBtn.Enabled = false;
             }
             else
             {
-                this.statusLabel.Text = "Activation Successful";
-                this.activateBtn.Text = "Deactivate";
-                this.activateTrialBtn.Enabled = false;
+                this.statusLabel.Text = "Error activating the license: " + status.ToString();
+                return;
             }
 
         }
