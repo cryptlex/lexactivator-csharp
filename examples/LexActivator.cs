@@ -309,25 +309,6 @@ namespace Cryptlex
         }
 
         /*
-            FUNCTION: GetLicenseUsageCount()
-
-            PURPOSE: Gets the license usage count.
-
-            PARAMETERS:
-            * totalUses - pointer to the integer that receives the value
-
-            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME
-        */
-        public static int GetLicenseUsageCount(ref uint totalUses)
-        {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.GetLicenseUsageCount_x64(ref totalUses) : Native.GetLicenseUsageCount(ref totalUses);
-#else 
-            return Native.GetLicenseUsageCount(ref totalUses);
-#endif
-        }
-
-        /*
             FUNCTION: GetLicenseUserEmail()
 
             PURPOSE: Gets the email associated with license user.
@@ -477,8 +458,8 @@ namespace Cryptlex
             This function should be executed at the time of registration, ideally on
             a button click.
 
-            RETURN CODES: LA_OK, LA_EXPIRED, LA_SUSPENDED, LA_E_REVOKED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_LICENSE_KEY,
-            LA_E_INET, LA_E_VM, LA_E_TIME, LA_E_ACTIVATION_LIMIT, LA_E_SERVER, LA_E_CLIENT, LA_USAGE_LIMIT_REACHED
+            RETURN CODES: LA_OK, LA_EXPIRED, LA_SUSPENDED, LA_E_REVOKED, LA_FAIL, LA_E_PRODUCT_ID,
+            LA_E_INET, LA_E_VM, LA_E_TIME, LA_E_ACTIVATION_LIMIT, LA_E_SERVER, LA_E_CLIENT, LA_E_LICENSE_KEY,
             LA_E_LICENSE_TYPE, LA_E_COUNTRY, LA_E_IP, LA_E_RATE_LIMIT
         */
         public static int ActivateLicense()
@@ -500,7 +481,7 @@ namespace Cryptlex
             * filePath - path of the offline activation response file.
 
             RETURN CODES: LA_OK, LA_EXPIRED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_OFFLINE_RESPONSE_FILE
-            LA_E_VM, LA_E_TIME, LA_E_FILE_PATH, LA_E_OFFLINE_RESPONSE_FILE_EXPIRED, LA_USAGE_LIMIT_REACHED
+            LA_E_VM, LA_E_TIME, LA_E_FILE_PATH, LA_E_OFFLINE_RESPONSE_FILE_EXPIRED
         */
         public static int ActivateLicenseOffline(string filePath)
         {
@@ -593,7 +574,7 @@ namespace Cryptlex
             of your app.
 
             RETURN CODES: LA_OK, LA_EXPIRED, LA_SUSPENDED, LA_GRACE_PERIOD_OVER, LA_FAIL,
-            LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_TIME, LA_USAGE_LIMIT_REACHED
+            LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_TIME
 
             NOTE: If application was activated offline using ActivateLicenseOffline() function, you
             may want to set grace period to 0 to ignore grace period.
@@ -618,7 +599,7 @@ namespace Cryptlex
             want to skip the server sync.
 
             RETURN CODES: LA_OK, LA_EXPIRED, LA_SUSPENDED, LA_GRACE_PERIOD_OVER, LA_FAIL,
-            LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_TIME, LA_USAGE_LIMIT_REACHED
+            LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_TIME
 
             NOTE: You may want to set grace period to 0 to ignore grace period.
         */
@@ -628,27 +609,6 @@ namespace Cryptlex
             return IntPtr.Size == 8 ? Native.IsLicenseValid_x64() : Native.IsLicenseValid();
 #else 
             return Native.IsLicenseValid(); 
-#endif
-        }
-
-        /*
-            FUNCTION: IncrementLicenseUsage()
-
-            PURPOSE: Increments the usage count of the license.
-
-            If increment is more than allowed uses it has no effect.
-
-            PARAMETERS:
-            * increment - the increment to add to the usage count
-
-            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME
-        */
-        public static int IncrementLicenseUsage(uint increment)
-        {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.IncrementLicenseUsage_x64(increment) : Native.IncrementLicenseUsage(increment);
-#else 
-            return Native.IncrementLicenseUsage(increment); 
 #endif
         }
 
@@ -818,19 +778,12 @@ namespace Cryptlex
             public const int LA_GRACE_PERIOD_OVER = 22;
 
             /*
-                CODE: LA_USAGE_LIMIT_REACHED
-
-                MESSAGE: The license has reached it's allowed usage limit.
-            */
-            public const int LA_USAGE_LIMIT_REACHED = 23;
-
-            /*
                 CODE: LA_TRIAL_EXPIRED
 
                 MESSAGE: The trial has expired or system time has been tampered
                 with. Ensure your date and time settings are correct.
             */
-            public const int LA_TRIAL_EXPIRED = 24;
+            public const int LA_TRIAL_EXPIRED = 25;
 
             /*
                 CODE: LA_LOCAL_TRIAL_EXPIRED
@@ -838,7 +791,7 @@ namespace Cryptlex
                 MESSAGE: The local trial has expired or system time has been tampered
                 with. Ensure your date and time settings are correct.
             */
-            public const int LA_LOCAL_TRIAL_EXPIRED = 25;
+            public const int LA_LOCAL_TRIAL_EXPIRED = 26;
 
             /*
                 CODE: LA_E_FILE_PATH
@@ -1133,9 +1086,6 @@ namespace Cryptlex
             public static extern int GetLicenseExpiryDate(ref uint expiryDate);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseUsageCount(ref uint totalUses);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLicenseUserEmail(StringBuilder email, int length);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
@@ -1176,9 +1126,6 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int IsLicenseValid();
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IncrementLicenseUsage(uint increment);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int ActivateTrial();
@@ -1236,9 +1183,6 @@ namespace Cryptlex
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseExpiryDate", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLicenseExpiryDate_x64(ref uint expiryDate);
 
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseUsageCount", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseUsageCount_x64(ref uint totalUses);
-
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseUserEmail", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLicenseUserEmail_x64(StringBuilder email, int length);
 
@@ -1280,9 +1224,6 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "IsLicenseValid", CallingConvention = CallingConvention.Cdecl)]
             public static extern int IsLicenseValid_x64();
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "IncrementLicenseUsage", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IncrementLicenseUsage_x64(uint increment);
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ActivateTrial", CallingConvention = CallingConvention.Cdecl)]
             public static extern int ActivateTrial_x64();
