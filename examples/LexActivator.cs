@@ -936,7 +936,7 @@ namespace Cryptlex
 
                 MESSAGE: The license activation was deleted on the server.
             */
-            public const int LA_E_ACTIVATION_NOT_FOUND = 59,
+            public const int LA_E_ACTIVATION_NOT_FOUND = 59;
 
             /*
                 CODE: LA_E_DEACTIVATION_LIMIT
