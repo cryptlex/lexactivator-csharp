@@ -126,6 +126,38 @@ namespace Cryptlex
         }
 
         /*
+            FUNCTION: SetLicenseCallback()
+
+            PURPOSE: Sets server sync callback function.
+
+            Whenever the server sync occurs in a separate thread, and server returns the response,
+            license callback function gets invoked with the following status codes:
+            LA_OK, LA_EXPIRED, LA_SUSPENDED,
+            LA_E_REVOKED, LA_E_ACTIVATION_NOT_FOUND, LA_E_MACHINE_FINGERPRINT
+            LA_E_COUNTRY, LA_E_INET, LA_E_SERVER, LA_E_RATE_LIMIT, LA_E_IP
+
+            PARAMETERS:
+            * callback - name of the callback function
+
+            RETURN CODES: LA_OK, LA_E_PRODUCT_ID, LA_E_LICENSE_KEY
+        */
+        public static int SetLicenseCallback(CallbackType callback)
+        {
+            var wrappedCallback = callback;
+            var syncTarget = callback.Target as System.Windows.Forms.Control;
+            if (syncTarget != null)
+            {
+                wrappedCallback = (v) => syncTarget.Invoke(callback, new object[] { v });
+            }
+#if LF_ANY_CPU
+            return IntPtr.Size == 8 ? Native.SetLicenseCallback_x64(wrappedCallback) : Native.SetLicenseCallback(wrappedCallback);
+#else
+            return Native.SetLicenseCallback(wrappedCallback);
+#endif
+
+        }
+
+        /*
             FUNCTION: SetActivationMetadata()
 
             PURPOSE: Sets the activation metadata.
@@ -1045,7 +1077,11 @@ namespace Cryptlex
             public const int LA_E_CLIENT = 92;
         };
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void CallbackType(uint status);
 
+        /* To prevent garbage collection of delegate, need to keep a reference */
+        static CallbackType licenseCallback;
 
         static class Native
         {
@@ -1060,6 +1096,9 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int SetLicenseKey(string licenseKey);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int SetLicenseCallback(CallbackType callback);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int SetActivationMetadata(string key, string value);
@@ -1158,6 +1197,9 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetLicenseKey", CallingConvention = CallingConvention.Cdecl)]
             public static extern int SetLicenseKey_x64(string licenseKey);
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetLicenseCallback", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int SetLicenseCallback_x64(CallbackType callback);
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetActivationMetadata", CallingConvention = CallingConvention.Cdecl)]
             public static extern int SetActivationMetadata_x64(string key, string value);

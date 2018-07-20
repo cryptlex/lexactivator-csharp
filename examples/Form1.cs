@@ -24,6 +24,13 @@ namespace Sample
                 this.statusLabel.Text = "Error setting product id: " + status.ToString();
                 return;
             }
+            // Setting license callback is recommended for floating licenses
+            // status = LexActivator.SetLicenseCallback(LicenseCallback);
+            // if (status != LexActivator.StatusCodes.LA_OK)
+            // {
+                // this.statusLabel.Text = "Error setting callback function: " + status.ToString();
+                // return;
+            // }
             status = LexActivator.IsLicenseGenuine();
             if(status == LexActivator.StatusCodes.LA_OK || status == LexActivator.StatusCodes.LA_EXPIRED || status == LexActivator.StatusCodes.LA_SUSPENDED || status == LexActivator.StatusCodes.LA_GRACE_PERIOD_OVER)
             {
@@ -115,6 +122,21 @@ namespace Sample
             else
             {
                 this.statusLabel.Text = "Trial started Successful";
+            }
+        }
+
+        // License callback is invoked when LexActivator.IsLicenseGenuine() completes a server sync
+        private void LicenseCallback(uint status)
+        {
+            // NOTE: Don't invoke IsLicenseGenuine(), ActivateLicense() or ActivateTrial() API functions in this callback
+            switch (status)
+            {
+                case LexActivator.StatusCodes.LA_SUSPENDED:
+                    this.statusLabel.Text = "The license has been suspended.";
+                    break;
+                default:
+                    this.statusLabel.Text = "License status code: " + status.ToString();
+                    break;
             }
         }
 
