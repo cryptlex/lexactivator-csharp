@@ -329,7 +329,7 @@ namespace Cryptlex
             PARAMETERS:
             * expiryDate - pointer to the integer that receives the value
 
-            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_TIME_MODIFIED
         */
         public static int GetLicenseExpiryDate(ref uint expiryDate)
         {
@@ -349,7 +349,8 @@ namespace Cryptlex
             * email - pointer to a buffer that receives the value of the string
             * length - size of the buffer pointed to by the email parameter
 
-            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_BUFFER_SIZE
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_TIME_MODIFIED,
+            LA_E_BUFFER_SIZE
         */
         public static int GetLicenseUserEmail(StringBuilder email, int length)
         {
@@ -369,7 +370,8 @@ namespace Cryptlex
             * name - pointer to a buffer that receives the value of the string
             * length - size of the buffer pointed to by the name parameter
 
-            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_BUFFER_SIZE
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_TIME_MODIFIED,
+            LA_E_BUFFER_SIZE
         */
         public static int GetLicenseUserName(StringBuilder name, int length)
         {
@@ -430,7 +432,7 @@ namespace Cryptlex
             PARAMETERS:
             * trialExpiryDate - pointer to the integer that receives the value
 
-            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_TIME_MODIFIED
         */
         public static int GetTrialExpiryDate(ref uint trialExpiryDate)
         {
@@ -450,7 +452,8 @@ namespace Cryptlex
             * trialId - pointer to a buffer that receives the value of the string
             * length - size of the buffer pointed to by the value parameter
 
-            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_BUFFER_SIZE
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_TIME_MODIFIED,
+            LA_E_BUFFER_SIZE
         */
         public static int GetTrialId(StringBuilder trialId, int length)
         {
@@ -469,7 +472,7 @@ namespace Cryptlex
             PARAMETERS:
             * trialExpiryDate - pointer to the integer that receives the value
 
-            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME_MODIFIED
         */
         public static int GetLocalTrialExpiryDate(ref uint trialExpiryDate)
         {
@@ -554,7 +557,7 @@ namespace Cryptlex
             a button click.
 
             RETURN CODES: LA_OK, LA_E_DEACTIVATION_LIMIT, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME
-            LA_E_LICENSE_KEY, LA_E_INET, LA_E_SERVER, LA_E_RATE_LIMIT
+            LA_E_LICENSE_KEY, LA_E_INET, LA_E_SERVER, LA_E_RATE_LIMIT, LA_E_TIME_MODIFIED
         */
         public static int DeactivateLicense()
         {
@@ -578,7 +581,7 @@ namespace Cryptlex
             * filePath - path of the file for the offline request.
 
             RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_FILE_PERMISSION,
-            LA_E_TIME
+            LA_E_TIME, LA_E_TIME_MODIFIED
         */
         public static int GenerateOfflineDeactivationRequest(string filePath)
         {
@@ -606,7 +609,7 @@ namespace Cryptlex
             of your app.
 
             RETURN CODES: LA_OK, LA_EXPIRED, LA_SUSPENDED, LA_GRACE_PERIOD_OVER, LA_FAIL,
-            LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_TIME
+            LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_TIME, LA_E_TIME_MODIFIED
 
             NOTE: If application was activated offline using ActivateLicenseOffline() function, you
             may want to set grace period to 0 to ignore grace period.
@@ -631,7 +634,7 @@ namespace Cryptlex
             want to skip the server sync.
 
             RETURN CODES: LA_OK, LA_EXPIRED, LA_SUSPENDED, LA_GRACE_PERIOD_OVER, LA_FAIL,
-            LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_TIME
+            LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_TIME, LA_E_TIME_MODIFIED
 
             NOTE: You may want to set grace period to 0 to ignore grace period.
         */
@@ -674,7 +677,8 @@ namespace Cryptlex
 
             This function must be called on every start of your program during the trial period.
 
-            RETURN CODES: LA_OK, LA_TRIAL_EXPIRED, LA_FAIL, LA_E_TIME, LA_E_PRODUCT_ID
+            RETURN CODES: LA_OK, LA_TRIAL_EXPIRED, LA_FAIL, LA_E_TIME, LA_E_PRODUCT_ID,
+            LA_E_TIME_MODIFIED
         */
         public static int IsTrialGenuine()
         {
@@ -696,7 +700,7 @@ namespace Cryptlex
             PARAMETERS:
             * trialLength - trial length in days
 
-            RETURN CODES: LA_OK, LA_LOCAL_TRIAL_EXPIRED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME
+            RETURN CODES: LA_OK, LA_LOCAL_TRIAL_EXPIRED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME_MODIFIED
 
             NOTE: The function is only meant for local(unverified) trials.
         */
@@ -717,7 +721,7 @@ namespace Cryptlex
 
             This function must be called on every start of your program during the trial period.
 
-            RETURN CODES: LA_OK, LA_LOCAL_TRIAL_EXPIRED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME
+            RETURN CODES: LA_OK, LA_LOCAL_TRIAL_EXPIRED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME_MODIFIED
 
             NOTE: The function is only meant for local(unverified) trials.
         */
@@ -738,7 +742,7 @@ namespace Cryptlex
             PARAMETERS:
             * trialExtensionLength - number of days to extend the trial
 
-            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME_MODIFIED
 
             NOTE: The function is only meant for local(unverified) trials.
         */
@@ -880,8 +884,8 @@ namespace Cryptlex
             /*
                 CODE: LA_E_TIME
 
-                MESSAGE: The system time has been tampered with. Ensure your date
-                and time settings are correct.
+                MESSAGE: The difference between the network time and the system time is
+                more than allowed clock offset.
             */
             public const int LA_E_TIME = 47;
 
@@ -978,11 +982,11 @@ namespace Cryptlex
             public const int LA_E_DEACTIVATION_LIMIT = 60;
 
             /*
-                CODE: LA_E_TRAIL_NOT_ALLOWED
+                CODE: LA_E_TRIAL_NOT_ALLOWED
 
                 MESSAGE: Trial not allowed for the product.
             */
-            public const int LA_E_TRAIL_NOT_ALLOWED = 61;
+            public const int LA_E_TRIAL_NOT_ALLOWED = 61;
 
             /*
                 CODE: LA_E_TRIAL_ACTIVATION_LIMIT
@@ -1032,6 +1036,13 @@ namespace Cryptlex
                 MESSAGE: The metadata key does not exist.
             */
             public const int LA_E_METADATA_KEY_NOT_FOUND = 68;
+
+            /*
+                CODE: LA_E_TIME_MODIFIED
+
+                MESSAGE: The system time has been tampered (backdated).
+            */
+            public const int LA_E_TIME_MODIFIED = 69;
 
             /*
                 CODE: LA_E_VM
