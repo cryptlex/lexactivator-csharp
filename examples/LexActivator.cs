@@ -383,6 +383,27 @@ namespace Cryptlex
         }
 
         /*
+            FUNCTION: GetLicenseType()
+
+            PURPOSE: Gets the license type (node-locked or hosted-floating).
+
+            PARAMETERS:
+            * name - pointer to a buffer that receives the value of the string
+            * length - size of the buffer pointed to by the licenseType parameter
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_TIME_MODIFIED,
+            LA_E_BUFFER_SIZE
+        */
+        public static int GetLicenseType(StringBuilder licenseType, int length)
+        {
+#if LA_ANY_CPU
+            return IntPtr.Size == 8 ? Native.GetLicenseType_x64(licenseType, length) : Native.GetLicenseType(licenseType, length);
+#else
+            return Native.GetLicenseType(licenseType, length);
+#endif
+        }
+
+        /*
             FUNCTION: GetActivationMetadata()
 
             PURPOSE: Gets the activation metadata.
@@ -1142,6 +1163,9 @@ namespace Cryptlex
             public static extern int GetLicenseUserName(StringBuilder name, int length);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetLicenseType(StringBuilder licenseType, int length);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetActivationMetadata(string key, StringBuilder value, int length);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
@@ -1241,6 +1265,9 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseUserName", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLicenseUserName_x64(StringBuilder name, int length);
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseType", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetLicenseType_x64(StringBuilder licenseType, int length);
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetActivationMetadata", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetActivationMetadata_x64(string key, StringBuilder value, int length);
