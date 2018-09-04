@@ -1,5 +1,5 @@
 # lexactivator-csharp
-LexActivator API wrapper for C#
+LexActivator - C# licensing library
 
 Refer to following for documentation:
 
