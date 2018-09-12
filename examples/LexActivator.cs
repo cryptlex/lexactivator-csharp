@@ -690,6 +690,46 @@ namespace Cryptlex
         }
 
         /*
+            FUNCTION: ActivateTrialOffline()
+
+            PURPOSE: Activates your trial using the offline activation response file.
+
+            PARAMETERS:
+            * filePath - path of the offline activation response file.
+
+            RETURN CODES: LA_OK, LA_TRIAL_EXPIRED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_OFFLINE_RESPONSE_FILE
+            LA_E_VM, LA_E_TIME, LA_E_FILE_PATH, LA_E_OFFLINE_RESPONSE_FILE_EXPIRED
+        */
+        public static int ActivateTrialOffline(string filePath)
+        {
+#if LA_ANY_CPU
+            return IntPtr.Size == 8 ? Native.ActivateTrialOffline_x64(filePath) : Native.ActivateTrialOffline(filePath);
+#else 
+            return Native.ActivateTrialOffline(filePath); 
+#endif
+        }
+
+        /*
+            FUNCTION: GenerateOfflineTrialActivationRequest()
+
+            PURPOSE: Generates the offline trial activation request needed for generating
+            offline trial activation response in the dashboard.
+
+            PARAMETERS:
+            * filePath - path of the file for the offline request.
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_FILE_PERMISSION
+        */
+        public static int GenerateOfflineTrialActivationRequest(string filePath)
+        {
+#if LA_ANY_CPU
+            return IntPtr.Size == 8 ? Native.GenerateOfflineTrialActivationRequest_x64(filePath) : Native.GenerateOfflineTrialActivationRequest(filePath);
+#else 
+            return Native.GenerateOfflineTrialActivationRequest(filePath);
+#endif
+        }
+
+        /*
             FUNCTION: IsTrialGenuine()
 
             PURPOSE: It verifies whether trial has started and is genuine or not. The
@@ -1205,6 +1245,12 @@ namespace Cryptlex
             public static extern int ActivateTrial();
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int ActivateTrialOffline(string filePath);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GenerateOfflineTrialActivationRequest(string filePath);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int IsTrialGenuine();
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
@@ -1307,6 +1353,12 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ActivateTrial", CallingConvention = CallingConvention.Cdecl)]
             public static extern int ActivateTrial_x64();
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ActivateTrialOffline", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int ActivateTrialOffline_x64(string filePath);
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GenerateOfflineTrialActivationRequest", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GenerateOfflineTrialActivationRequest_x64(string filePath);
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "IsTrialGenuine", CallingConvention = CallingConvention.Cdecl)]
             public static extern int IsTrialGenuine_x64();
