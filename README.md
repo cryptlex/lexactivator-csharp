@@ -19,3 +19,10 @@ Install-Package StrictEmit
     ...
     <Reference Include="netstandard" />
     ...
+
+## In case you are targetting AnyCpu configuration:
+
+Create following folder structure in parallel to the exe file:
+
+lib/x86/LexActivator.dll
+lib/x64/LexActivator.dll

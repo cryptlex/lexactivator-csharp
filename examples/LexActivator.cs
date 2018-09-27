@@ -16,13 +16,7 @@ namespace Cryptlex
                 return _lexActivator;
             }
         }
-        /*
-            In order to use "Any CPU" configuration, rename 64 bit LexActivator.dll to LexActivator64.dll and add "LA_ANY_CPU"
-	        conditional compilation symbol in your project properties.
-        */
-#if LA_ANY_CPU
-        private const string DLL_FILE_NAME_X64 = "LexActivator64.dll";
-#endif
+        
         public enum PermissionFlags : uint
         {
             LA_USER = 1,
