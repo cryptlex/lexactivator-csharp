@@ -7,22 +7,31 @@ https://docs.cryptlex.com/node-locked-licenses/using-lexactivator
 
 ## Dependencies
 
-Install-Package AdvancedDLSupport
+`Install-Package AdvancedDLSupport`
 
-Install-Package Mono.DllMap
 
-Install-Package StrictEmit
+`Install-Package Mono.DllMap`
+
+
+`Install-Package StrictEmit`
 
 ## In .csproj file add following reference:
 
+```
 <ItemGroup>
+
     ...
+    
     <Reference Include="netstandard" />
-    ...
+    
+    ... 
+</ItemGroup>
+```
 
 ## In case you are targetting AnyCpu configuration:
 
 Create following folder structure in parallel to the exe file:
 
-lib/x86/LexActivator.dll
-lib/x64/LexActivator.dll
+`lib/x86/LexActivator.dll`
+
+`lib/x64/LexActivator.dll`
