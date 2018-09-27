@@ -7,46 +7,48 @@ namespace Sample
 {
     public partial class ActivationForm : Form
     {
+        private ILexActivator lexActivator = LexActivator.Instance;
+
         public ActivationForm()
         {
             InitializeComponent();
             int status;
             // status = LexActivator.SetProductFile ("ABSOLUTE_PATH_OF_PRODUCT.DAT_FILE");
-            status = LexActivator.SetProductData("PASTE_CONTENT_OF_PRODUCT.DAT_FILE");
+            status = lexActivator.SetProductData("REJGOTZEODU4RjBERjQ3MzlGQzdCODAxQzkyQ0Y5QzQ=.BlDqjH29Z2EDwuTk023GzNKUpU1Zry1G+kQLb+XgzxdwiPTWNxlvkskMhubJqZChkQSJGF2lEwuP/+PwoOuZTydRCXKAu55AGRYlUlcIeeWKbhI2yWgpIfz6gXcdAXOgtLAJTmRNrDnieVizaZAcOoDHGQTSUDV2zmcu6vlArDFdTC/SOI33W9LeK2yij5a2kNqItyPn9WFvc++J0LIiAlHmbm+MCjO415LnrmbiXMjKkC923Q7bm02+pCJXO6lWdWuq/2GrA6hN2iaMfUzdCFZdeDihO7kQwuKerMfXrJW41ADDIqXUpHzw/zshrCsDfjj17PJF8OWMSeFSvxYlfm0rulvV2CMNyfkl/sAKom/gx2zitoGQwk52EsngWdvujjyRTbWFS60lghRoX919VFwWnsILPa47g9768s5iOcGwz5wq4RxGZEEXImUJv8qQOqmEVvmeyT05YnmW51o0GmnTKhcLJLv68weFvN5ctMSA+0RksWxT+xTQcH1omHYzOG2uE+6Ad/nvESTgYqWBmd+ZcMLb11OT+2c4ijqCK5G8vsu7B9vBaR6egGSvpmP/WOgwqO222SsMmK+vLEKh52kyC04XBJeaz9SPmltYIotvyvDEtCE9xQ7uLFhv/lcwxlNJflLQaOB8/wuMlLCkMoOIvWw09V14+xYtd8pLqjtkS4rC+y3AxQmCzlJmQwDn1KkO65FBkgi0k7+6KZR4twRjJ7UrVVKhQHtq594FIk4=");
             if (status != LexActivator.StatusCodes.LA_OK)
             {
                 this.statusLabel.Text = "Error setting product file: " + status.ToString();
                 return;
             }
-            status = LexActivator.SetProductId("PASTE_PRODUCT_ID", LexActivator.PermissionFlags.LA_USER);
+            status = lexActivator.SetProductId("bb65d1d9-34a9-4add-9f73-61fc49fc91ed", LexActivator.PermissionFlags.LA_USER);
             if (status != LexActivator.StatusCodes.LA_OK)
             {
                 this.statusLabel.Text = "Error setting product id: " + status.ToString();
                 return;
             }
             // Setting license callback is recommended for floating licenses
-            // status = LexActivator.SetLicenseCallback(LicenseCallback);
-            // if (status != LexActivator.StatusCodes.LA_OK)
-            // {
-                // this.statusLabel.Text = "Error setting callback function: " + status.ToString();
-                // return;
-            // }
-            status = LexActivator.IsLicenseGenuine();
+            status = lexActivator.SetLicenseCallback(LicenseCallback);
+            if (status != LexActivator.StatusCodes.LA_OK)
+            {
+                this.statusLabel.Text = "Error setting callback function: " + status.ToString();
+                return;
+            }
+            status = lexActivator.IsLicenseGenuine();
             if(status == LexActivator.StatusCodes.LA_OK || status == LexActivator.StatusCodes.LA_EXPIRED || status == LexActivator.StatusCodes.LA_SUSPENDED || status == LexActivator.StatusCodes.LA_GRACE_PERIOD_OVER)
             {
-                // uint expiryDate = 0;
-                // LexActivator.GetLicenseExpiryDate(ref expiryDate);
-                // int daysLeft = (int)(expiryDate - unixTimestamp()) / 86500;
+                //uint expiryDate = 0;
+                //lexActivator.GetLicenseExpiryDate(ref expiryDate);
+                //int daysLeft = (int)(expiryDate - unixTimestamp()) / 86500;
                 this.statusLabel.Text = "License genuinely activated! Activation Status: " + status.ToString();
                 this.activateBtn.Text = "Deactivate";
                 this.activateTrialBtn.Enabled = false;
                 return;
             }
-            status = LexActivator.IsTrialGenuine();
+            status = lexActivator.IsTrialGenuine();
             if (status == LexActivator.StatusCodes.LA_OK)
             {
                 uint trialExpiryDate = 0;
-                LexActivator.GetTrialExpiryDate(ref trialExpiryDate);
+                lexActivator.GetTrialExpiryDate(ref trialExpiryDate);
                 int daysLeft = (int)(trialExpiryDate - unixTimestamp()) / 86500;
                 this.statusLabel.Text = "Trial period! Days left:" + daysLeft.ToString();
                 this.activateTrialBtn.Enabled = false;
@@ -66,7 +68,7 @@ namespace Sample
             int status;
             if(this.activateBtn.Text == "Deactivate")
             {
-                status = LexActivator.DeactivateLicense();
+                status = lexActivator.DeactivateLicense();
                 if (status == LexActivator.StatusCodes.LA_OK)
                 {
                     this.statusLabel.Text = "License deactivated successfully";
@@ -77,19 +79,19 @@ namespace Sample
                 this.statusLabel.Text = "Error deactivating license: " + status.ToString();
                 return;
             }
-            status = LexActivator.SetLicenseKey(productKeyBox.Text);
+            status = lexActivator.SetLicenseKey(productKeyBox.Text);
             if (status != LexActivator.StatusCodes.LA_OK)
             {
                 this.statusLabel.Text = "Error setting license key: " + status.ToString();
                 return;
             }
-            status = LexActivator.SetActivationMetadata("key1", "value1");
+            status = lexActivator.SetActivationMetadata("key1", "value1");
             if (status != LexActivator.StatusCodes.LA_OK)
             {
                 this.statusLabel.Text = "Error setting activation metadata: " + status.ToString();
                 return;
             }
-            status = LexActivator.ActivateLicense();
+            status = lexActivator.ActivateLicense();
             if (status == LexActivator.StatusCodes.LA_OK || status == LexActivator.StatusCodes.LA_EXPIRED || status == LexActivator.StatusCodes.LA_SUSPENDED)            
             {
                 this.statusLabel.Text = "Activation Successful :" + status.ToString();
@@ -107,13 +109,13 @@ namespace Sample
         private void activateTrialBtn_Click(object sender, EventArgs e)
         {
             int status;
-            status = LexActivator.SetTrialActivationMetadata("key2", "value2");
+            status = lexActivator.SetTrialActivationMetadata("key2", "value2");
             if (status != LexActivator.StatusCodes.LA_OK)
             {
                 this.statusLabel.Text = "Error setting activation metadata: " + status.ToString();
                 return;
             }
-            status = LexActivator.ActivateTrial();
+            status = lexActivator.ActivateTrial();
             if (status != LexActivator.StatusCodes.LA_OK)
             {
                 this.statusLabel.Text = "Error activating the trial: " + status.ToString();
@@ -129,15 +131,28 @@ namespace Sample
         private void LicenseCallback(uint status)
         {
             // NOTE: Don't invoke IsLicenseGenuine(), ActivateLicense() or ActivateTrial() API functions in this callback
+            string statusText;
             switch (status)
             {
                 case LexActivator.StatusCodes.LA_SUSPENDED:
-                    this.statusLabel.Text = "The license has been suspended.";
+                    statusText = "The license has been suspended.";
                     break;
                 default:
-                    this.statusLabel.Text = "License status code: " + status.ToString();
+                    statusText = "License status code: " + status.ToString();
                     break;
             }
+            if(this.statusLabel.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(delegate
+                {
+                    this.statusLabel.Text = statusText;
+                }));
+            }
+            else
+            {
+                this.statusLabel.Text = statusText;
+            }
+            
         }
 
         private uint unixTimestamp()

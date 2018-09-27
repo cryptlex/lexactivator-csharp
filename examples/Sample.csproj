@@ -74,6 +74,19 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdvancedDLSupport, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AdvancedDLSupport.2.3.0\lib\netstandard2.0\AdvancedDLSupport.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.DllMap, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Mono.DllMap.1.0.1\lib\netstandard2.0\Mono.DllMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="netstandard" />
+    <Reference Include="StrictEmit, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\StrictEmit.2.4.2\lib\net45\StrictEmit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -93,6 +106,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ILexActivator.cs" />
     <Compile Include="LexActivator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
