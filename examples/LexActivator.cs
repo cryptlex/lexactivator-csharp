@@ -21,6 +21,7 @@ namespace Cryptlex
         {
             LA_USER = 1,
             LA_SYSTEM = 2,
+            LA_IN_MEMORY = 4
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
