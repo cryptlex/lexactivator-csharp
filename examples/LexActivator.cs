@@ -225,7 +225,7 @@ namespace Cryptlex
 #if LA_ANY_CPU 
             return IntPtr.Size == 8 ? Native.SetAppVersion_x64(appVersion) : Native.SetAppVersion(appVersion);
 #else 
-            return Native.SetAppVersion(appVersion); 
+            return Native.SetAppVersion(appVersion);
 #endif
         }
 
@@ -254,7 +254,7 @@ namespace Cryptlex
 #if LA_ANY_CPU 
             return IntPtr.Size == 8 ? Native.SetNetworkProxy_x64(proxy) : Native.SetNetworkProxy(proxy);
 #else 
-            return Native.SetNetworkProxy(proxy); 
+            return Native.SetNetworkProxy(proxy);
 #endif
         }
 
@@ -344,7 +344,7 @@ namespace Cryptlex
         /*
             FUNCTION: GetLicenseUserEmail()
 
-            PURPOSE: Gets the email associated with license user.
+            PURPOSE: Gets the email associated with the license user.
 
             PARAMETERS:
             * email - pointer to a buffer that receives the value of the string
@@ -365,7 +365,7 @@ namespace Cryptlex
         /*
             FUNCTION: GetLicenseUserName()
 
-            PURPOSE: Gets the name associated with license user.
+            PURPOSE: Gets the name associated with the license user.
 
             PARAMETERS:
             * name - pointer to a buffer that receives the value of the string
@@ -380,6 +380,48 @@ namespace Cryptlex
             return IntPtr.Size == 8 ? Native.GetLicenseUserName_x64(name, length) : Native.GetLicenseUserName(name, length);
 #else
             return Native.GetLicenseUserName(name, length);
+#endif
+        }
+
+        /*
+            FUNCTION: GetLicenseUserCompany()
+
+            PURPOSE: Gets the company associated with the license user.
+
+            PARAMETERS:
+            * company - pointer to a buffer that receives the value of the string
+            * length - size of the buffer pointed to by the company parameter
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_TIME_MODIFIED,
+            LA_E_BUFFER_SIZE
+        */
+        public static int GetLicenseUserCompany(StringBuilder company, int length)
+        {
+#if LA_ANY_CPU
+            return IntPtr.Size == 8 ? Native.GetLicenseUserCompany_x64(company, length) : Native.GetLicenseUserCompany(company, length);
+#else
+            return Native.GetLicenseUserCompany(company, length);
+#endif
+        }
+
+        /*
+            FUNCTION: GetLicenseUserMetadata()
+
+            PURPOSE: Gets the metadata associated with the license user.
+
+            PARAMETERS:
+            * key - key to retrieve the value
+            * value - pointer to a buffer that receives the value of the string
+            * length - size of the buffer pointed to by the value parameter
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METADATA_KEY_NOT_FOUND, LA_E_BUFFER_SIZE
+        */
+        public static int GetLicenseUserMetadata(string key, StringBuilder value, int length)
+        {
+#if LA_ANY_CPU
+            return IntPtr.Size == 8 ? Native.GetLicenseUserMetadata_x64(key, value, length) : Native.GetLicenseUserMetadata(key, value, length);
+#else 
+            return Native.GetLicenseUserMetadata(key, value, length);
 #endif
         }
 
@@ -414,7 +456,7 @@ namespace Cryptlex
             * value - pointer to a buffer that receives the value of the string
             * length - size of the buffer pointed to by the value parameter
 
-            RETURN CODES: LA_OK, LA_E_PRODUCT_ID, LA_E_METADATA_KEY_NOT_FOUND, LA_E_BUFFER_SIZE
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METADATA_KEY_NOT_FOUND, LA_E_BUFFER_SIZE
         */
         public static int GetActivationMetadata(string key, StringBuilder value, int length)
         {
@@ -422,6 +464,25 @@ namespace Cryptlex
             return IntPtr.Size == 8 ? Native.GetActivationMetadata_x64(key, value, length) : Native.GetActivationMetadata(key, value, length);
 #else 
             return Native.GetActivationMetadata(key, value, length);
+#endif
+        }
+
+        /*
+            FUNCTION: GetServerSyncGracePeriodExpiryDate()
+
+            PURPOSE: Gets the server sync grace period expiry date timestamp.
+
+            PARAMETERS:
+            * expiryDate - pointer to the integer that receives the value
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_TIME_MODIFIED
+        */
+        public static int GetServerSyncGracePeriodExpiryDate(ref uint expiryDate)
+        {
+#if LA_ANY_CPU 
+            return IntPtr.Size == 8 ? Native.GetServerSyncGracePeriodExpiryDate_x64(ref expiryDate) : Native.GetServerSyncGracePeriodExpiryDate(ref expiryDate);
+#else 
+            return Native.GetServerSyncGracePeriodExpiryDate(ref expiryDate);
 #endif
         }
 
@@ -435,7 +496,7 @@ namespace Cryptlex
             * value - pointer to a buffer that receives the value of the string
             * length - size of the buffer pointed to by the value parameter
 
-            RETURN CODES: LA_OK, LA_E_PRODUCT_ID, LA_E_METADATA_KEY_NOT_FOUND, LA_E_BUFFER_SIZE
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METADATA_KEY_NOT_FOUND, LA_E_BUFFER_SIZE
         */
         public static int GetTrialActivationMetadata(string key, StringBuilder value, int length)
         {
@@ -461,7 +522,7 @@ namespace Cryptlex
 #if LA_ANY_CPU 
             return IntPtr.Size == 8 ? Native.GetTrialExpiryDate_x64(ref trialExpiryDate) : Native.GetTrialExpiryDate(ref trialExpiryDate);
 #else 
-            return Native.GetTrialExpiryDate(ref trialExpiryDate); 
+            return Native.GetTrialExpiryDate(ref trialExpiryDate);
 #endif
         }
 
@@ -501,7 +562,38 @@ namespace Cryptlex
 #if LA_ANY_CPU 
             return IntPtr.Size == 8 ? Native.GetLocalTrialExpiryDate_x64(ref trialExpiryDate) : Native.GetLocalTrialExpiryDate(ref trialExpiryDate);
 #else 
-            return Native.GetLocalTrialExpiryDate(ref trialExpiryDate); 
+            return Native.GetLocalTrialExpiryDate(ref trialExpiryDate);
+#endif
+        }
+
+        /*
+            FUNCTION: CheckForReleaseUpdate()
+
+            PURPOSE: Checks whether a new release is available for the product.
+
+            This function should only be used if you manage your releases through
+            Cryptlex release management API.
+
+            PARAMETERS:
+            * platform - release platform e.g. windows, macos, linux
+            * version - current release version
+            * channel - release channel e.g. stable
+            * callback - name of the callback function.
+
+            RETURN CODES: LA_OK, LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_RELEASE_VERSION_FORMAT
+        */
+        public static int CheckForReleaseUpdate(string platform, string version, string channel, CallbackType callback)
+        {
+            var wrappedCallback = callback;
+            var syncTarget = callback.Target as System.Windows.Forms.Control;
+            if (syncTarget != null)
+            {
+                wrappedCallback = (v) => syncTarget.Invoke(callback, new object[] { v });
+            }
+#if LA_ANY_CPU
+            return IntPtr.Size == 8 ? Native.CheckForReleaseUpdate_x64(platform, version, channel, wrappedCallback) : Native.CheckForReleaseUpdate(platform, version, channel, wrappedCallback);
+#else 
+            return Native.CheckForReleaseUpdate(platform, version, channel, wrappedCallback);
 #endif
         }
 
@@ -545,7 +637,7 @@ namespace Cryptlex
 #if LA_ANY_CPU
             return IntPtr.Size == 8 ? Native.ActivateLicenseOffline_x64(filePath) : Native.ActivateLicenseOffline(filePath);
 #else 
-            return Native.ActivateLicenseOffline(filePath); 
+            return Native.ActivateLicenseOffline(filePath);
 #endif
         }
 
@@ -586,7 +678,7 @@ namespace Cryptlex
 #if LA_ANY_CPU
             return IntPtr.Size == 8 ? Native.DeactivateLicense_x64() : Native.DeactivateLicense();
 #else
-            return Native.DeactivateLicense(); 
+            return Native.DeactivateLicense();
 #endif
         }
 
@@ -610,7 +702,7 @@ namespace Cryptlex
 #if LA_ANY_CPU
             return IntPtr.Size == 8 ? Native.GenerateOfflineDeactivationRequest_x64(filePath) : Native.GenerateOfflineDeactivationRequest(filePath);
 #else 
-            return Native.GenerateOfflineDeactivationRequest(filePath); 
+            return Native.GenerateOfflineDeactivationRequest(filePath);
 #endif
         }
 
@@ -665,28 +757,28 @@ namespace Cryptlex
 #if LA_ANY_CPU
             return IntPtr.Size == 8 ? Native.IsLicenseValid_x64() : Native.IsLicenseValid();
 #else 
-            return Native.IsLicenseValid(); 
+            return Native.IsLicenseValid();
 #endif
         }
 
-       /*
-            FUNCTION: ActivateTrial()
+        /*
+             FUNCTION: ActivateTrial()
 
-            PURPOSE: Starts the verified trial in your application by contacting the
-            Cryptlex servers.
+             PURPOSE: Starts the verified trial in your application by contacting the
+             Cryptlex servers.
 
-            This function should be executed when your application starts first time on
-            the user's computer, ideally on a button click.
+             This function should be executed when your application starts first time on
+             the user's computer, ideally on a button click.
 
-            RETURN CODES: LA_OK, LA_TRIAL_EXPIRED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_INET,
-            LA_E_VM, LA_E_TIME, LA_E_SERVER, LA_E_CLIENT, LA_E_COUNTRY, LA_E_IP, LA_E_RATE_LIMIT
-        */
+             RETURN CODES: LA_OK, LA_TRIAL_EXPIRED, LA_FAIL, LA_E_PRODUCT_ID, LA_E_INET,
+             LA_E_VM, LA_E_TIME, LA_E_SERVER, LA_E_CLIENT, LA_E_COUNTRY, LA_E_IP, LA_E_RATE_LIMIT
+         */
         public static int ActivateTrial()
         {
 #if LA_ANY_CPU 
             return IntPtr.Size == 8 ? Native.ActivateTrial_x64() : Native.ActivateTrial();
 #else 
-            return Native.ActivateTrial(); 
+            return Native.ActivateTrial();
 #endif
         }
 
@@ -706,7 +798,7 @@ namespace Cryptlex
 #if LA_ANY_CPU
             return IntPtr.Size == 8 ? Native.ActivateTrialOffline_x64(filePath) : Native.ActivateTrialOffline(filePath);
 #else 
-            return Native.ActivateTrialOffline(filePath); 
+            return Native.ActivateTrialOffline(filePath);
 #endif
         }
 
@@ -747,7 +839,7 @@ namespace Cryptlex
 #if LA_ANY_CPU 
             return IntPtr.Size == 8 ? Native.IsTrialGenuine_x64() : Native.IsTrialGenuine();
 #else 
-            return Native.IsTrialGenuine(); 
+            return Native.IsTrialGenuine();
 #endif
         }
 
@@ -771,7 +863,7 @@ namespace Cryptlex
 #if LA_ANY_CPU 
             return IntPtr.Size == 8 ? Native.ActivateLocalTrial_x64(trialLength) : Native.ActivateLocalTrial(trialLength);
 #else 
-            return Native.ActivateLocalTrial(trialLength); 
+            return Native.ActivateLocalTrial(trialLength);
 #endif
         }
 
@@ -792,7 +884,7 @@ namespace Cryptlex
 #if LA_ANY_CPU 
             return IntPtr.Size == 8 ? Native.IsLocalTrialGenuine_x64() : Native.IsLocalTrialGenuine();
 #else 
-            return Native.IsLocalTrialGenuine(); 
+            return Native.IsLocalTrialGenuine();
 #endif
         }
 
@@ -813,7 +905,7 @@ namespace Cryptlex
 #if LA_ANY_CPU 
             return IntPtr.Size == 8 ? Native.ExtendLocalTrial_x64(trialExtensionLength) : Native.ExtendLocalTrial(trialExtensionLength);
 #else 
-            return Native.ExtendLocalTrial(trialExtensionLength); 
+            return Native.ExtendLocalTrial(trialExtensionLength);
 #endif
         }
 
@@ -833,7 +925,7 @@ namespace Cryptlex
 #if LA_ANY_CPU 
             return IntPtr.Size == 8 ? Native.Reset_x64() : Native.Reset();
 #else 
-            return Native.Reset(); 
+            return Native.Reset();
 #endif
         }
 
@@ -890,6 +982,21 @@ namespace Cryptlex
                 with. Ensure your date and time settings are correct.
             */
             public const int LA_LOCAL_TRIAL_EXPIRED = 26;
+
+            /*
+                CODE: LA_RELEASE_UPDATE_AVAILABLE
+
+                MESSAGE: A new update is available for the product. This means a new release has
+                been published for the product.
+            */
+            public const int LA_RELEASE_UPDATE_AVAILABLE = 30;
+
+            /*
+                CODE: LA_RELEASE_NO_UPDATE_AVAILABLE
+
+                MESSAGE: No new update is available for the product. The current version is latest.
+            */
+            public const int LA_RELEASE_NO_UPDATE_AVAILABLE = 31;
 
             /*
                 CODE: LA_E_FILE_PATH
@@ -1107,6 +1214,13 @@ namespace Cryptlex
             public const int LA_E_TIME_MODIFIED = 69;
 
             /*
+                CODE: LA_E_RELEASE_VERSION_FORMAT
+
+                MESSAGE: Invalid version format.
+            */
+            public const int LA_E_RELEASE_VERSION_FORMAT = 70;
+
+            /*
                 CODE: LA_E_VM
 
                 MESSAGE: Application is being run inside a virtual machine / hypervisor,
@@ -1204,10 +1318,19 @@ namespace Cryptlex
             public static extern int GetLicenseUserName(StringBuilder name, int length);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetLicenseUserCompany(StringBuilder company, int length);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetLicenseUserMetadata(string key, StringBuilder value, int length);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLicenseType(StringBuilder licenseType, int length);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetActivationMetadata(string key, StringBuilder value, int length);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetServerSyncGracePeriodExpiryDate(ref uint expiryDate);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetTrialActivationMetadata(string key, StringBuilder value, int length);
@@ -1220,6 +1343,9 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLocalTrialExpiryDate(ref uint trialExpiryDate);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int CheckForReleaseUpdate(string platform, string version, string channel, CallbackType callback);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int ActivateLicense();
@@ -1313,11 +1439,20 @@ namespace Cryptlex
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseUserName", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLicenseUserName_x64(StringBuilder name, int length);
 
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseUserCompany", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetLicenseUserCompany_x64(StringBuilder company, int length);
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseUserMetadata", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetLicenseUserMetadata_x64(string key, StringBuilder value, int length);
+
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseType", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLicenseType_x64(StringBuilder licenseType, int length);
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetActivationMetadata", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetActivationMetadata_x64(string key, StringBuilder value, int length);
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetServerSyncGracePeriodExpiryDate", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetServerSyncGracePeriodExpiryDate_x64(ref uint expiryDate);
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetTrialActivationMetadata", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetTrialActivationMetadata_x64(string key, StringBuilder value, int length);
@@ -1330,6 +1465,9 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLocalTrialExpiryDate", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLocalTrialExpiryDate_x64(ref uint trialExpiryDate);
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "CheckForReleaseUpdate", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int CheckForReleaseUpdate_x64(string platform, string version, string channel, CallbackType callback);
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ActivateLicense", CallingConvention = CallingConvention.Cdecl)]
             public static extern int ActivateLicense_x64();
