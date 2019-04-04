@@ -28,11 +28,11 @@ namespace Sample
             // status = LexActivator.SetLicenseCallback(LicenseCallback);
             // if (status != LexActivator.StatusCodes.LA_OK)
             // {
-                // this.statusLabel.Text = "Error setting callback function: " + status.ToString();
-                // return;
+            // this.statusLabel.Text = "Error setting callback function: " + status.ToString();
+            // return;
             // }
             status = LexActivator.IsLicenseGenuine();
-            if(status == LexActivator.StatusCodes.LA_OK || status == LexActivator.StatusCodes.LA_EXPIRED || status == LexActivator.StatusCodes.LA_SUSPENDED || status == LexActivator.StatusCodes.LA_GRACE_PERIOD_OVER)
+            if (status == LexActivator.StatusCodes.LA_OK || status == LexActivator.StatusCodes.LA_EXPIRED || status == LexActivator.StatusCodes.LA_SUSPENDED || status == LexActivator.StatusCodes.LA_GRACE_PERIOD_OVER)
             {
                 // uint expiryDate = 0;
                 // LexActivator.GetLicenseExpiryDate(ref expiryDate);
@@ -40,6 +40,13 @@ namespace Sample
                 this.statusLabel.Text = "License genuinely activated! Activation Status: " + status.ToString();
                 this.activateBtn.Text = "Deactivate";
                 this.activateTrialBtn.Enabled = false;
+
+                // Checking for software release update
+                // status = LexActivator.CheckForReleaseUpdate("windows", "1.0.0", "stable", SoftwareReleaseUpdateCallback);
+                // if (status != LexActivator.StatusCodes.LA_OK)
+                // {
+                //     this.statusLabel.Text = "Error checking for software release update: " + status.ToString();
+                // }
                 return;
             }
             status = LexActivator.IsTrialGenuine();
@@ -64,7 +71,7 @@ namespace Sample
         private void activateBtn_Click(object sender, EventArgs e)
         {
             int status;
-            if(this.activateBtn.Text == "Deactivate")
+            if (this.activateBtn.Text == "Deactivate")
             {
                 status = LexActivator.DeactivateLicense();
                 if (status == LexActivator.StatusCodes.LA_OK)
@@ -90,7 +97,7 @@ namespace Sample
                 return;
             }
             status = LexActivator.ActivateLicense();
-            if (status == LexActivator.StatusCodes.LA_OK || status == LexActivator.StatusCodes.LA_EXPIRED || status == LexActivator.StatusCodes.LA_SUSPENDED)            
+            if (status == LexActivator.StatusCodes.LA_OK || status == LexActivator.StatusCodes.LA_EXPIRED || status == LexActivator.StatusCodes.LA_SUSPENDED)
             {
                 this.statusLabel.Text = "Activation Successful :" + status.ToString();
                 this.activateBtn.Text = "Deactivate";
@@ -136,6 +143,23 @@ namespace Sample
                     break;
                 default:
                     this.statusLabel.Text = "License status code: " + status.ToString();
+                    break;
+            }
+        }
+
+        // Software release update callback is invoked when CheckForReleaseUpdate() gets a response from the server
+        private void SoftwareReleaseUpdateCallback(uint status)
+        {
+            switch (status)
+            {
+                case LexActivator.StatusCodes.LA_RELEASE_UPDATE_AVAILABLE:
+                    this.statusLabel.Text = "An update is available for the app.";
+                    break;
+                case LexActivator.StatusCodes.LA_RELEASE_NO_UPDATE_AVAILABLE:
+                    // Current versiom is already latest.
+                    break;
+                default:
+                    this.statusLabel.Text = "Release status code: " + status.ToString();
                     break;
             }
         }
