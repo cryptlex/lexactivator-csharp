@@ -6,7 +6,7 @@ namespace Cryptlex
 {
     public interface ILexActivator
     {
-       
+
         /*
             FUNCTION: SetProductFile()
 
@@ -256,6 +256,34 @@ namespace Cryptlex
         int GetLicenseUserName([MarshalAs(UnmanagedType.LPWStr)]StringBuilder name, int length);
 
         /*
+            FUNCTION: GetLicenseUserCompany()
+
+            PURPOSE: Gets the company associated with the license user.
+
+            PARAMETERS:
+            * company - pointer to a buffer that receives the value of the string
+            * length - size of the buffer pointed to by the company parameter
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_TIME_MODIFIED,
+            LA_E_BUFFER_SIZE
+        */
+        int GetLicenseUserCompany([MarshalAs(UnmanagedType.LPWStr)]StringBuilder company, int length);
+
+        /*
+            FUNCTION: GetLicenseUserMetadata()
+
+            PURPOSE: Gets the metadata associated with the license user.
+
+            PARAMETERS:
+            * key - key to retrieve the value
+            * value - pointer to a buffer that receives the value of the string
+            * length - size of the buffer pointed to by the value parameter
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METADATA_KEY_NOT_FOUND, LA_E_BUFFER_SIZE
+        */
+        int GetLicenseUserMetadata([MarshalAs(UnmanagedType.LPWStr)]string key, [MarshalAs(UnmanagedType.LPWStr)]StringBuilder value, int length);
+
+        /*
             FUNCTION: GetLicenseType()
 
             PURPOSE: Gets the license type (node-locked or hosted-floating).
@@ -282,6 +310,18 @@ namespace Cryptlex
             RETURN CODES: LA_OK, LA_E_PRODUCT_ID, LA_E_METADATA_KEY_NOT_FOUND, LA_E_BUFFER_SIZE
         */
         int GetActivationMetadata([MarshalAs(UnmanagedType.LPWStr)]string key, [MarshalAs(UnmanagedType.LPWStr)]StringBuilder value, int length);
+
+        /*
+            FUNCTION: GetServerSyncGracePeriodExpiryDate()
+
+            PURPOSE: Gets the server sync grace period expiry date timestamp.
+
+            PARAMETERS:
+            * expiryDate - pointer to the integer that receives the value
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME, LA_E_TIME_MODIFIED
+        */
+        int GetServerSyncGracePeriodExpiryDate(ref uint expiryDate);
 
         /*
             FUNCTION: GetTrialActivationMetadata()
@@ -334,6 +374,23 @@ namespace Cryptlex
             RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_TIME_MODIFIED
         */
         int GetLocalTrialExpiryDate(ref uint trialExpiryDate);
+
+        /*
+            FUNCTION: CheckForReleaseUpdate()
+
+            PURPOSE: Checks whether a new release is available for the product.
+            This function should only be used if you manage your releases through
+            Cryptlex release management API.
+
+            PARAMETERS:
+            * platform - release platform e.g. windows, macos, linux
+            * version - current release version
+            * channel - release channel e.g. stable
+            * callback - name of the callback function.
+
+            RETURN CODES: LA_OK, LA_E_PRODUCT_ID, LA_E_LICENSE_KEY, LA_E_RELEASE_VERSION_FORMAT
+        */
+        int CheckForReleaseUpdate([MarshalAs(UnmanagedType.LPWStr)]string platform, [MarshalAs(UnmanagedType.LPWStr)]string version, [MarshalAs(UnmanagedType.LPWStr)]string channel, LexActivator.CallbackType callback);
 
         /*
             FUNCTION: ActivateLicense()
