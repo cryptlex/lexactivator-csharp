@@ -156,7 +156,7 @@ namespace Sample
                     this.statusLabel.Text = "An update is available for the app.";
                     break;
                 case LexActivator.StatusCodes.LA_RELEASE_NO_UPDATE_AVAILABLE:
-                    // Current versiom is already latest.
+                    // Current version is already latest.
                     break;
                 default:
                     this.statusLabel.Text = "Release status code: " + status.ToString();
