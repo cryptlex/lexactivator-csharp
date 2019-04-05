@@ -42,6 +42,13 @@ namespace Sample
                 this.statusLabel.Text = "License genuinely activated! Activation Status: " + status.ToString();
                 this.activateBtn.Text = "Deactivate";
                 this.activateTrialBtn.Enabled = false;
+
+                // Checking for software release update
+                // status = LexActivator.CheckForReleaseUpdate("windows", "1.0.0", "stable", SoftwareReleaseUpdateCallback);
+                // if (status != LexActivator.StatusCodes.LA_OK)
+                // {
+                //     this.statusLabel.Text = "Error checking for software release update: " + status.ToString();
+                // }
                 return;
             }
             status = lexActivator.IsTrialGenuine();
@@ -153,6 +160,35 @@ namespace Sample
                 this.statusLabel.Text = statusText;
             }
             
+        }
+
+        // Software release update callback is invoked when CheckForReleaseUpdate() gets a response from the server
+        private void SoftwareReleaseUpdateCallback(uint status)
+        {
+            string statusText;
+            switch (status)
+            {
+                case LexActivator.StatusCodes.LA_RELEASE_UPDATE_AVAILABLE:
+                    statusText = "An update is available for the app.";
+                    break;
+                case LexActivator.StatusCodes.LA_RELEASE_NO_UPDATE_AVAILABLE:
+                    // Current versiom is already latest.
+                    break;
+                default:
+                    statusText = "Release status code: " + status.ToString();
+                    break;
+            }
+            if(this.statusLabel.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(delegate
+                {
+                    this.statusLabel.Text = statusText;
+                }));
+            }
+            else
+            {
+                this.statusLabel.Text = statusText;
+            }
         }
 
         private uint unixTimestamp()
