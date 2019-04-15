@@ -150,7 +150,7 @@ namespace Cryptlex
             {
                 wrappedCallback = (v) => syncTarget.Invoke(callback, new object[] { v });
             }
-#if LF_ANY_CPU
+#if LA_ANY_CPU
             return IntPtr.Size == 8 ? Native.SetLicenseCallback_x64(wrappedCallback) : Native.SetLicenseCallback(wrappedCallback);
 #else
             return Native.SetLicenseCallback(wrappedCallback);
