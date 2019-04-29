@@ -84,6 +84,22 @@ namespace Cryptlex
         int SetLicenseKey([MarshalAs(UnmanagedType.LPWStr)]string licenseKey);
 
         /*
+            FUNCTION: SetLicenseUserCredential()
+
+            PURPOSE: Sets the license user email and password for authentication.
+
+            This function must be called before ActivateLicense() or IsLicenseGenuine()
+            function if 'requireAuthentication' property of the license is set to true.
+
+            PARAMETERS:
+            * email - user email address.
+            * password - user password.
+
+            RETURN CODES: LA_OK, LA_E_PRODUCT_ID, LA_E_LICENSE_KEY
+        */
+        int SetLicenseUserCredential([MarshalAs(UnmanagedType.LPWStr)]string email, [MarshalAs(UnmanagedType.LPWStr)]string password);
+
+        /*
             FUNCTION: SetLicenseCallback()
 
             PURPOSE: Sets server sync callback function.
@@ -92,7 +108,7 @@ namespace Cryptlex
             license callback function gets invoked with the following status codes:
             LA_OK, LA_EXPIRED, LA_SUSPENDED,
             LA_E_REVOKED, LA_E_ACTIVATION_NOT_FOUND, LA_E_MACHINE_FINGERPRINT
-            LA_E_COUNTRY, LA_E_INET, LA_E_SERVER, LA_E_RATE_LIMIT, LA_E_IP
+            LA_E_AUTHENTICATION_FAILED, LA_E_COUNTRY, LA_E_INET, LA_E_SERVER, LA_E_RATE_LIMIT, LA_E_IP
 
             PARAMETERS:
             * callback - name of the callback function
@@ -404,7 +420,7 @@ namespace Cryptlex
 
             RETURN CODES: LA_OK, LA_EXPIRED, LA_SUSPENDED, LA_E_REVOKED, LA_FAIL, LA_E_PRODUCT_ID,
             LA_E_INET, LA_E_VM, LA_E_TIME, LA_E_ACTIVATION_LIMIT, LA_E_SERVER, LA_E_CLIENT, LA_E_LICENSE_KEY,
-            LA_E_LICENSE_TYPE, LA_E_COUNTRY, LA_E_IP, LA_E_RATE_LIMIT
+            LA_E_AUTHENTICATION_FAILED, LA_E_LICENSE_TYPE, LA_E_COUNTRY, LA_E_IP, LA_E_RATE_LIMIT
         */
         int ActivateLicense();
 

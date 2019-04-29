@@ -165,7 +165,7 @@ namespace Sample
         // Software release update callback is invoked when CheckForReleaseUpdate() gets a response from the server
         private void SoftwareReleaseUpdateCallback(uint status)
         {
-            string statusText;
+            string statusText = "";
             switch (status)
             {
                 case LexActivator.StatusCodes.LA_RELEASE_UPDATE_AVAILABLE:
