@@ -341,9 +341,9 @@ namespace Cryptlex
         public static int GetLicenseMeterAttribute(string name, ref uint allowedUses, ref uint totalUses)
         {
 #if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetLicenseMeterAttribute_x64(name, allowedUses, totalUses) : Native.GetLicenseMeterAttribute(name, allowedUses, totalUses);
+            return IntPtr.Size == 8 ? Native.GetLicenseMeterAttribute_x64(name, ref allowedUses, ref totalUses) : Native.GetLicenseMeterAttribute(name, ref allowedUses, ref totalUses);
 #else 
-            return Native.GetLicenseMeterAttribute(name, allowedUses, totalUses);
+            return Native.GetLicenseMeterAttribute(name, ref allowedUses, ref totalUses);
 #endif
         }
 
@@ -526,9 +526,9 @@ namespace Cryptlex
         public static int GetActivationMeterAttributeUses(string name, ref uint uses)
         {
 #if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetActivationMeterAttributeUses_x64(name, uses) : Native.GetActivationMeterAttributeUses(name, uses);
+            return IntPtr.Size == 8 ? Native.GetActivationMeterAttributeUses_x64(name, ref uses) : Native.GetActivationMeterAttributeUses(name, ref uses);
 #else 
-            return Native.GetActivationMeterAttributeUses(name, uses);
+            return Native.GetActivationMeterAttributeUses(name, ref uses);
 #endif
         }
 
