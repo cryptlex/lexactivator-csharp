@@ -327,6 +327,27 @@ namespace Cryptlex
         }
 
         /*
+            FUNCTION: GetLicenseMeterAttribute()
+
+            PURPOSE: Gets the license meter attribute allowed uses and total uses.
+
+            PARAMETERS:
+            * name - name of the meter attribute
+            * allowedUses - pointer to the integer that receives the value
+            * totalUses - pointer to the integer that receives the value
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND
+        */
+        public static int GetLicenseMeterAttribute(string name, ref uint allowedUses, ref uint totalUses)
+        {
+#if LA_ANY_CPU
+            return IntPtr.Size == 8 ? Native.GetLicenseMeterAttribute_x64(name, allowedUses, totalUses) : Native.GetLicenseMeterAttribute(name, allowedUses, totalUses);
+#else 
+            return Native.GetLicenseMeterAttribute(name, allowedUses, totalUses);
+#endif
+        }
+
+        /*
             FUNCTION: GetLicenseKey()
 
             PURPOSE: Gets the license key used for activation.
@@ -488,6 +509,26 @@ namespace Cryptlex
             return IntPtr.Size == 8 ? Native.GetActivationMetadata_x64(key, value, length) : Native.GetActivationMetadata(key, value, length);
 #else 
             return Native.GetActivationMetadata(key, value, length);
+#endif
+        }
+
+        /*
+            FUNCTION: GetActivationMeterAttributeUses()
+
+            PURPOSE: Gets the meter attribute uses consumed by the activation.
+
+            PARAMETERS:
+            * name - name of the meter attribute
+            * allowedUses - pointer to the integer that receives the value
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND
+        */
+        public static int GetActivationMeterAttributeUses(string name, ref uint uses)
+        {
+#if LA_ANY_CPU
+            return IntPtr.Size == 8 ? Native.GetActivationMeterAttributeUses_x64(name, uses) : Native.GetActivationMeterAttributeUses(name, uses);
+#else 
+            return Native.GetActivationMeterAttributeUses(name, uses);
 #endif
         }
 
@@ -934,6 +975,74 @@ namespace Cryptlex
         }
 
         /*
+            FUNCTION: IncrementActivationMeterAttributeUses()
+
+            PURPOSE: Increments the meter attribute uses of the activation.
+
+            PARAMETERS:
+            * name - name of the meter attribute
+            * increment - the increment value
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND,
+            LA_E_INET, LA_E_TIME, LA_E_SERVER, LA_E_CLIENT, LA_E_METER_ATTRIBUTE_USES_LIMIT_REACHED,
+            LA_E_AUTHENTICATION_FAILED, LA_E_COUNTRY, LA_E_IP, LA_E_RATE_LIMIT, LA_E_LICENSE_KEY
+
+        */
+        public static int IncrementActivationMeterAttributeUses(string name, uint increment)
+        {
+#if LA_ANY_CPU 
+            return IntPtr.Size == 8 ? Native.IncrementActivationMeterAttributeUses_x64(name, increment) : Native.IncrementActivationMeterAttributeUses(name, increment);
+#else 
+            return Native.IncrementActivationMeterAttributeUses(name, increment);
+#endif
+        }
+
+        /*
+            FUNCTION: DecrementActivationMeterAttributeUses()
+
+            PURPOSE: Decrements the meter attribute uses of the activation.
+
+            PARAMETERS:
+            * name - name of the meter attribute
+            * decrement - the decrement value
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND,
+            LA_E_INET, LA_E_TIME, LA_E_SERVER, LA_E_CLIENT, LA_E_RATE_LIMIT, LA_E_LICENSE_KEY,
+            LA_E_AUTHENTICATION_FAILED, LA_E_COUNTRY, LA_E_IP, LA_E_ACTIVATION_NOT_FOUND
+
+            NOTE: If the decrement is more than the current uses, it resets the uses to 0.
+        */
+        public static int DecrementActivationMeterAttributeUses(string name, uint decrement)
+        {
+#if LA_ANY_CPU 
+            return IntPtr.Size == 8 ? Native.DecrementActivationMeterAttributeUses_x64(name, decrement) : Native.DecrementActivationMeterAttributeUses(name, decrement);
+#else 
+            return Native.DecrementActivationMeterAttributeUses(name, decrement);
+#endif
+        }
+
+        /*
+            FUNCTION: ResetActivationMeterAttributeUses()
+
+            PURPOSE: Resets the meter attribute uses consumed by the activation.
+
+            PARAMETERS:
+            * name - name of the meter attribute
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND,
+            LA_E_INET, LA_E_TIME, LA_E_SERVER, LA_E_CLIENT, LA_E_RATE_LIMIT, LA_E_LICENSE_KEY,
+            LA_E_AUTHENTICATION_FAILED, LA_E_COUNTRY, LA_E_IP, LA_E_ACTIVATION_NOT_FOUND
+        */
+        public static int ResetActivationMeterAttributeUses(string name)
+        {
+#if LA_ANY_CPU 
+            return IntPtr.Size == 8 ? Native.ResetActivationMeterAttributeUses_x64(name) : Native.ResetActivationMeterAttributeUses(name);
+#else 
+            return Native.ResetActivationMeterAttributeUses(name);
+#endif
+        }
+
+        /*
             FUNCTION: Reset()
 
             PURPOSE: Resets the activation and trial data stored in the machine.
@@ -1252,6 +1361,20 @@ namespace Cryptlex
             public const int LA_E_AUTHENTICATION_FAILED = 71;
 
             /*
+                CODE: LA_E_METER_ATTRIBUTE_NOT_FOUND
+
+                MESSAGE: The meter attribute does not exist.
+            */
+            public const int LA_E_METER_ATTRIBUTE_NOT_FOUND = 72;
+
+            /*
+                CODE: LA_E_METER_ATTRIBUTE_USES_LIMIT_REACHED
+
+                MESSAGE: The meter attribute has reached it's usage limit.
+            */
+            public const int LA_E_METER_ATTRIBUTE_USES_LIMIT_REACHED = 73;
+
+            /*
                 CODE: LA_E_VM
 
                 MESSAGE: Application is being run inside a virtual machine / hypervisor,
@@ -1340,6 +1463,9 @@ namespace Cryptlex
             public static extern int GetLicenseMetadata(string key, StringBuilder value, int length);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetLicenseMeterAttribute(string name, ref uint allowedUses, ref uint totalUses);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLicenseKey(StringBuilder licenseKey, int length);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
@@ -1362,6 +1488,9 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetActivationMetadata(string key, StringBuilder value, int length);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetActivationMeterAttributeUses(string name, ref uint uses);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetServerSyncGracePeriodExpiryDate(ref uint expiryDate);
@@ -1424,6 +1553,15 @@ namespace Cryptlex
             public static extern int ExtendLocalTrial(uint trialExtensionLength);
 
             [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int IncrementActivationMeterAttributeUses(string name, uint increment);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int DecrementActivationMeterAttributeUses(string name, uint decrement);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int ResetActivationMeterAttributeUses(string name);
+
+            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
             public static extern int Reset();
 
 #if LA_ANY_CPU
@@ -1464,6 +1602,9 @@ namespace Cryptlex
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseMetadata", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLicenseMetadata_x64(string key, StringBuilder value, int length);
 
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseMeterAttribute", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetLicenseMeterAttribute_x64(string name, ref uint allowedUses, ref uint totalUses);
+
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseKey", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetLicenseKey_x64(StringBuilder licenseKey, int length);
 
@@ -1487,6 +1628,9 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetActivationMetadata", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetActivationMetadata_x64(string key, StringBuilder value, int length);
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetActivationMeterAttributeUses", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int GetActivationMeterAttributeUses_x64(string name, ref uint uses);
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetServerSyncGracePeriodExpiryDate", CallingConvention = CallingConvention.Cdecl)]
             public static extern int GetServerSyncGracePeriodExpiryDate_x64(ref uint expiryDate);
@@ -1547,6 +1691,15 @@ namespace Cryptlex
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ExtendLocalTrial", CallingConvention = CallingConvention.Cdecl)]
             public static extern int ExtendLocalTrial_x64(uint trialExtensionLength);
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "IncrementActivationMeterAttributeUses", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int IncrementActivationMeterAttributeUses_x64(string name, uint increment);
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "DecrementActivationMeterAttributeUses", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int DecrementActivationMeterAttributeUses_x64(string name, uint decrement);
+
+            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ResetActivationMeterAttributeUses", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int ResetActivationMeterAttributeUses_x64(string name);
 
             [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "Reset", CallingConvention = CallingConvention.Cdecl)]
             public static extern int Reset_x64();
