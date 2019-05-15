@@ -219,6 +219,20 @@ namespace Cryptlex
         int GetLicenseMetadata([MarshalAs(UnmanagedType.LPWStr)]string key, [MarshalAs(UnmanagedType.LPWStr)]StringBuilder value, int length);
 
         /*
+            FUNCTION: GetLicenseMeterAttribute()
+
+            PURPOSE: Gets the license meter attribute allowed uses and total uses.
+
+            PARAMETERS:
+            * name - name of the meter attribute
+            * allowedUses - pointer to the integer that receives the value
+            * totalUses - pointer to the integer that receives the value
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND
+        */
+        int GetLicenseMeterAttribute([MarshalAs(UnmanagedType.LPWStr)]string name, ref uint allowedUses, ref uint totalUses);
+
+        /*
             FUNCTION: GetLicenseKey()
 
             PURPOSE: Gets the license key used for activation.
@@ -326,6 +340,19 @@ namespace Cryptlex
             RETURN CODES: LA_OK, LA_E_PRODUCT_ID, LA_E_METADATA_KEY_NOT_FOUND, LA_E_BUFFER_SIZE
         */
         int GetActivationMetadata([MarshalAs(UnmanagedType.LPWStr)]string key, [MarshalAs(UnmanagedType.LPWStr)]StringBuilder value, int length);
+
+        /*
+            FUNCTION: GetActivationMeterAttributeUses()
+
+            PURPOSE: Gets the meter attribute uses consumed by the activation.
+
+            PARAMETERS:
+            * name - name of the meter attribute
+            * allowedUses - pointer to the integer that receives the value
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND
+        */
+        int GetActivationMeterAttributeUses([MarshalAs(UnmanagedType.LPWStr)]string name, ref uint uses);
 
         /*
             FUNCTION: GetServerSyncGracePeriodExpiryDate()
@@ -620,6 +647,53 @@ namespace Cryptlex
             NOTE: The function is only meant for local(unverified) trials.
         */
         int ExtendLocalTrial(uint trialExtensionLength);
+
+                /*
+            FUNCTION: IncrementActivationMeterAttributeUses()
+
+            PURPOSE: Increments the meter attribute uses of the activation.
+
+            PARAMETERS:
+            * name - name of the meter attribute
+            * increment - the increment value
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND,
+            LA_E_INET, LA_E_TIME, LA_E_SERVER, LA_E_CLIENT, LA_E_METER_ATTRIBUTE_USES_LIMIT_REACHED,
+            LA_E_AUTHENTICATION_FAILED, LA_E_COUNTRY, LA_E_IP, LA_E_RATE_LIMIT, LA_E_LICENSE_KEY
+
+        */
+        int IncrementActivationMeterAttributeUses([MarshalAs(UnmanagedType.LPWStr)]string name, uint increment);
+
+        /*
+            FUNCTION: DecrementActivationMeterAttributeUses()
+
+            PURPOSE: Decrements the meter attribute uses of the activation.
+
+            PARAMETERS:
+            * name - name of the meter attribute
+            * decrement - the decrement value
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND,
+            LA_E_INET, LA_E_TIME, LA_E_SERVER, LA_E_CLIENT, LA_E_RATE_LIMIT, LA_E_LICENSE_KEY,
+            LA_E_AUTHENTICATION_FAILED, LA_E_COUNTRY, LA_E_IP, LA_E_ACTIVATION_NOT_FOUND
+
+            NOTE: If the decrement is more than the current uses, it resets the uses to 0.
+        */
+        int DecrementActivationMeterAttributeUses([MarshalAs(UnmanagedType.LPWStr)]string name, uint decrement);
+
+        /*
+            FUNCTION: ResetActivationMeterAttributeUses()
+
+            PURPOSE: Resets the meter attribute uses consumed by the activation.
+
+            PARAMETERS:
+            * name - name of the meter attribute
+
+            RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND,
+            LA_E_INET, LA_E_TIME, LA_E_SERVER, LA_E_CLIENT, LA_E_RATE_LIMIT, LA_E_LICENSE_KEY,
+            LA_E_AUTHENTICATION_FAILED, LA_E_COUNTRY, LA_E_IP, LA_E_ACTIVATION_NOT_FOUND
+        */
+        int ResetActivationMeterAttributeUses([MarshalAs(UnmanagedType.LPWStr)]string name);
 
         /*
             FUNCTION: Reset()
