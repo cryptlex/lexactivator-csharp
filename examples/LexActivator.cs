@@ -519,7 +519,7 @@ namespace Cryptlex
 
             PARAMETERS:
             * name - name of the meter attribute
-            * allowedUses - pointer to the integer that receives the value
+            * uses - pointer to the integer that receives the value
 
             RETURN CODES: LA_OK, LA_FAIL, LA_E_PRODUCT_ID, LA_E_METER_ATTRIBUTE_NOT_FOUND
         */
