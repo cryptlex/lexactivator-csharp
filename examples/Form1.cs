@@ -36,7 +36,7 @@ namespace Sample
             {
                 // uint expiryDate = 0;
                 // LexActivator.GetLicenseExpiryDate(ref expiryDate);
-                // int daysLeft = (int)(expiryDate - unixTimestamp()) / 86500;
+                // int daysLeft = (int)(expiryDate - unixTimestamp()) / 86400;
                 this.statusLabel.Text = "License genuinely activated! Activation Status: " + status.ToString();
                 this.activateBtn.Text = "Deactivate";
                 this.activateTrialBtn.Enabled = false;
@@ -54,7 +54,7 @@ namespace Sample
             {
                 uint trialExpiryDate = 0;
                 LexActivator.GetTrialExpiryDate(ref trialExpiryDate);
-                int daysLeft = (int)(trialExpiryDate - unixTimestamp()) / 86500;
+                int daysLeft = (int)(trialExpiryDate - unixTimestamp()) / 86400;
                 this.statusLabel.Text = "Trial period! Days left:" + daysLeft.ToString();
                 this.activateTrialBtn.Enabled = false;
             }
