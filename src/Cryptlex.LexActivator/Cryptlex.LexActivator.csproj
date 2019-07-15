@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.0;net40</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>3.0.0</Version>
+    <Company>Cryptlex, LLC</Company>
+    <Authors>Adnan Kamili</Authors>
+    <Description>LexActivator API wrapper for C# (.NET licensing library).</Description>
+    <Copyright>Cryptlex, LLC</Copyright>
+    <PackageProjectUrl>https://github.com/cryptlex/lexactivator-csharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cryptlex/lexactivator-csharp</RepositoryUrl>
+    <PackageTags>lexactivator licensing-library license-checking</PackageTags>
+  </PropertyGroup>
+
+</Project>
