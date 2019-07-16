@@ -1,29 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFrameworks>net461;netstandard1.1;net45</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>3.0.0</Version>
-    <Company>Cryptlex, LLC</Company>
-    <Authors>Adnan Kamili</Authors>
-    <Description>LexActivator API wrapper for C# (.NET licensing library).</Description>
-    <Copyright>Cryptlex, LLC</Copyright>
-    <PackageProjectUrl>https://github.com/cryptlex/lexactivator-csharp</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/cryptlex/lexactivator-csharp</RepositoryUrl>
-    <PackageTags>lexactivator licensing-library license-checking</PackageTags>
-  </PropertyGroup>
-  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net\d'))">
-  <DefineConstants>NETFRAMEWORK</DefineConstants>
-</PropertyGroup>
-<PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^netstandard\d'))">
-  <DefineConstants>NETSTANDARD</DefineConstants>
-</PropertyGroup>
-  <ItemGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net\d'))">
-    <Reference Include="System.Web" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-
+    <PropertyGroup>
+        <TargetFrameworks>netstandard1.1;net45;net461</TargetFrameworks>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+    <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net\d'))">
+        <DefineConstants>NETFRAMEWORK</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^netstandard\d'))">
+        <DefineConstants>NETSTANDARD</DefineConstants>
+    </PropertyGroup>
+    <ItemGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net\d'))">
+        <Reference Include="System.Windows.Forms" />
+    </ItemGroup>
+    <!-- <ItemGroup>
+        <Content Include="build\x86\LexActivator32.dll">
+            <Link>x86\LexActivator32.dll</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+        <Content Include="build\x64\LexActivator64.dll">
+            <Link>x64\LexActivator64.dll</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+        <Content Include="..\..\libs\x86\LexActivator32.dll">
+            <Link>x86\LexActivator32.dll</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+    </ItemGroup> -->
 </Project>
