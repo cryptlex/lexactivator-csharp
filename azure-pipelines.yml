@@ -28,3 +28,18 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     clean: true
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/Cryptlex.LexActivator.nuspec'
+    versioningScheme: 'off'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-connection'
+
+
