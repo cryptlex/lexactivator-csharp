@@ -241,7 +241,7 @@ namespace Cryptlex
         /// <returns>Returns the values of meter attribute allowed and total uses.</returns>
         public static LicenseMeterAttribute GetLicenseMeterAttribute(string name)
         {
-            ref uint allowedUses, totalUses;
+            uint allowedUses = 0, totalUses = 0;
             int status = IntPtr.Size == 8 ? LexActivatorNative.GetLicenseMeterAttribute_x64(name, ref allowedUses, ref totalUses) : LexActivatorNative.GetLicenseMeterAttribute(name, ref allowedUses, ref totalUses);
             if (LexStatusCodes.LA_OK == status)
             {
@@ -269,9 +269,9 @@ namespace Cryptlex
         /// Gets the license expiry date timestamp.
         /// </summary>
         /// <returns>Returns the timestamp.</returns>
-        public static int GetLicenseExpiryDate()
+        public static uint GetLicenseExpiryDate()
         {
-            ref uint expiryDate;
+            uint expiryDate = 0;
             int status = IntPtr.Size == 8 ? LexActivatorNative.GetLicenseExpiryDate_x64(ref expiryDate) : LexActivatorNative.GetLicenseExpiryDate(ref expiryDate);
             switch (status)
             {
@@ -381,9 +381,9 @@ namespace Cryptlex
         /// </summary>
         /// <param name="name"></param>
         /// <returns>Returns the value of meter attribute uses by the activation.</returns>
-        public static int GetActivationMeterAttributeUses(string name)
+        public static uint GetActivationMeterAttributeUses(string name)
         {
-            ref uint uses;
+            uint uses = 0;
             int status = IntPtr.Size == 8 ? LexActivatorNative.GetActivationMeterAttributeUses_x64(name, ref uses) : LexActivatorNative.GetActivationMeterAttributeUses(name, ref uses);
             if (LexStatusCodes.LA_OK == status)
             {
@@ -396,15 +396,15 @@ namespace Cryptlex
         /// Gets the server sync grace period expiry date timestamp.
         /// </summary>
         /// <returns>Returns server sync grace period expiry date timestamp.</returns>
-        public static int GetServerSyncGracePeriodExpiryDate()
+        public static uint GetServerSyncGracePeriodExpiryDate()
         {
-            ref uint expiryDate;
+            uint expiryDate = 0;
             int status = IntPtr.Size == 8 ? LexActivatorNative.GetServerSyncGracePeriodExpiryDate_x64(ref expiryDate) : LexActivatorNative.GetServerSyncGracePeriodExpiryDate(ref expiryDate);
             switch (status)
             {
-                case LA_OK:
+                case LexStatusCodes.LA_OK:
                     return expiryDate;
-                case LA_FAIL:
+                case LexStatusCodes.LA_FAIL:
                     return 0;
                 default:
                     throw new LexActivatorException(status);
@@ -431,15 +431,15 @@ namespace Cryptlex
         /// Gets the trial expiry date timestamp.
         /// </summary>
         /// <returns>Returns trial expiry date timestamp.</returns>
-        public static int GetTrialExpiryDate()
+        public static uint GetTrialExpiryDate()
         {
-            ref uint trialExpiryDate;
+            uint trialExpiryDate = 0;
             int status = IntPtr.Size == 8 ? LexActivatorNative.GetTrialExpiryDate_x64(ref trialExpiryDate) : LexActivatorNative.GetTrialExpiryDate(ref trialExpiryDate);
             switch (status)
             {
-                case LA_OK:
+                case LexStatusCodes.LA_OK:
                     return trialExpiryDate;
-                case LA_FAIL:
+                case LexStatusCodes.LA_FAIL:
                     return 0;
                 default:
                     throw new LexActivatorException(status);
@@ -465,15 +465,15 @@ namespace Cryptlex
         /// Gets the trial expiry date timestamp.
         /// </summary>
         /// <returns>Returns trial expiry date timestamp.</returns>
-        public static int GetLocalTrialExpiryDate()
+        public static uint GetLocalTrialExpiryDate()
         {
-            ref uint trialExpiryDate;
+            uint trialExpiryDate = 0;
             int status = IntPtr.Size == 8 ? LexActivatorNative.GetLocalTrialExpiryDate_x64(ref trialExpiryDate) : LexActivatorNative.GetLocalTrialExpiryDate(ref trialExpiryDate);
             switch (status)
             {
-                case LA_OK:
+                case LexStatusCodes.LA_OK:
                     return trialExpiryDate;
-                case LA_FAIL:
+                case LexStatusCodes.LA_FAIL:
                     return 0;
                 default:
                     throw new LexActivatorException(status);
