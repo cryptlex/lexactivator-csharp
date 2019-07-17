@@ -12,21 +12,4 @@
     <ItemGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net\d'))">
         <Reference Include="System.Windows.Forms" />
     </ItemGroup>
-    <!-- <ItemGroup>
-        <Content Include="build\x86\LexActivator32.dll">
-            <Link>x86\LexActivator32.dll</Link>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-        </Content>
-        <Content Include="build\x64\LexActivator64.dll">
-            <Link>x64\LexActivator64.dll</Link>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-        </Content>
-        <Content Include="..\..\libs\x86\LexActivator32.dll">
-            <Link>x86\LexActivator32.dll</Link>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-        </Content>
-    </ItemGroup> -->
 </Project>
