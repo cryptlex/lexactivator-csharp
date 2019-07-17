@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: '**/Cryptlex.LexActivator.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -23,8 +23,8 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    solution: '**\*.sln'
+    solution: '$(solution)'
     vsVersion: '16.0'
-    platform: 'Any CPU'
-    configuration: 'Release'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
     clean: true
