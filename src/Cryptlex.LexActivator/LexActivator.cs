@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Collections.Generic;
 
@@ -6,15 +7,6 @@ namespace Cryptlex
 {
     public static class LexActivator
     {
-        private const string DLL_FILE_NAME = "LexActivator.dll";
-
-        /*
-            In order to use "Any CPU" configuration, rename 64 bit LexActivator.dll to LexActivator64.dll and add "LA_ANY_CPU"
-	        conditional compilation symbol in your project properties.
-        */
-#if LA_ANY_CPU
-        private const string DLL_FILE_NAME_X64 = "LexActivator64.dll";
-#endif
         public enum PermissionFlags : uint
         {
             LA_USER = 1,
@@ -40,11 +32,7 @@ namespace Cryptlex
         */
         public static int SetProductFile(string filePath)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.SetProductFile_x64(filePath) : Native.SetProductFile(filePath);
-#else
-            return Native.SetProductFile(filePath);
-#endif
+            return IntPtr.Size == 8 ? LexActivatorNative.SetProductFile_x64(filePath) : LexActivatorNative.SetProductFile(filePath);
         }
 
         /*
@@ -68,11 +56,7 @@ namespace Cryptlex
         */
         public static int SetProductData(string productData)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.SetProductData_x64(productData) : Native.SetProductData(productData);
-#else
-            return Native.SetProductData(productData);
-#endif
+            return IntPtr.Size == 8 ? LexActivatorNative.SetProductData_x64(productData) : LexActivatorNative.SetProductData(productData);
         }
 
         /*
@@ -100,11 +84,7 @@ namespace Cryptlex
         */
         public static int SetProductId(string productId, PermissionFlags flags)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.SetProductId_x64(productId, flags) : Native.SetProductId(productId, flags);
-#else
-            return Native.SetProductId(productId, flags);
-#endif
+            return IntPtr.Size == 8 ? LexActivatorNative.SetProductId_x64(productId, flags) : LexActivatorNative.SetProductId(productId, flags);
         }
 
         /*
@@ -119,11 +99,7 @@ namespace Cryptlex
         */
         public static int SetLicenseKey(string licenseKey)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.SetLicenseKey_x64(licenseKey) : Native.SetLicenseKey(licenseKey);
-#else
-            return Native.SetLicenseKey(licenseKey);
-#endif
+            return IntPtr.Size == 8 ? LexActivatorNative.SetLicenseKey_x64(licenseKey) : LexActivatorNative.SetLicenseKey(licenseKey);
         }
 
         /*
@@ -142,11 +118,7 @@ namespace Cryptlex
         */
         public static int SetLicenseUserCredential(string email, string password)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.SetLicenseUserCredential_x64(email, password) : Native.SetLicenseUserCredential(email, password);
-#else
-            return Native.SetLicenseUserCredential(email, password);
-#endif
+            return IntPtr.Size == 8 ? LexActivatorNative.SetLicenseUserCredential_x64(email, password) : LexActivatorNative.SetLicenseUserCredential(email, password);
         }
 
         /*
@@ -177,12 +149,8 @@ namespace Cryptlex
             }
             #endif
             callbackList.Add(wrappedCallback);
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.SetLicenseCallback_x64(wrappedCallback) : Native.SetLicenseCallback(wrappedCallback);
-#else
-            return Native.SetLicenseCallback(wrappedCallback);
-#endif
 
+            return IntPtr.Size == 8 ? LexActivatorNative.SetLicenseCallback_x64(wrappedCallback) : LexActivatorNative.SetLicenseCallback(wrappedCallback);
         }
 
         /*
@@ -202,11 +170,7 @@ namespace Cryptlex
         */
         public static int SetActivationMetadata(string key, string value)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.SetActivationMetadata_x64(key, value) : Native.SetActivationMetadata(key, value);
-#else
-            return Native.SetActivationMetadata(key, value);
-#endif
+            return IntPtr.Size == 8 ? LexActivatorNative.SetActivationMetadata_x64(key, value) : LexActivatorNative.SetActivationMetadata(key, value);
         }
 
         /*
@@ -226,10 +190,10 @@ namespace Cryptlex
         */
         public static int SetTrialActivationMetadata(string key, string value)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.SetTrialActivationMetadata_x64(key, value) : Native.SetTrialActivationMetadata(key, value);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.SetTrialActivationMetadata_x64(key, value) : LexActivatorNative.SetTrialActivationMetadata(key, value);
 #else
-            return Native.SetTrialActivationMetadata(key, value);
+            return LexActivatorNative.SetTrialActivationMetadata(key, value);
 #endif
 
         }
@@ -249,10 +213,10 @@ namespace Cryptlex
         */
         public static int SetAppVersion(string appVersion)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.SetAppVersion_x64(appVersion) : Native.SetAppVersion(appVersion);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.SetAppVersion_x64(appVersion) : LexActivatorNative.SetAppVersion(appVersion);
 #else 
-            return Native.SetAppVersion(appVersion);
+            return LexActivatorNative.SetAppVersion(appVersion);
 #endif
         }
 
@@ -278,10 +242,10 @@ namespace Cryptlex
         */
         public static int SetNetworkProxy(string proxy)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.SetNetworkProxy_x64(proxy) : Native.SetNetworkProxy(proxy);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.SetNetworkProxy_x64(proxy) : LexActivatorNative.SetNetworkProxy(proxy);
 #else 
-            return Native.SetNetworkProxy(proxy);
+            return LexActivatorNative.SetNetworkProxy(proxy);
 #endif
         }
 
@@ -301,10 +265,10 @@ namespace Cryptlex
         */
         public static int GetProductMetadata(string key, StringBuilder value, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetProductMetadata_x64(key, value, length) : Native.GetProductMetadata(key, value, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetProductMetadata_x64(key, value, length) : LexActivatorNative.GetProductMetadata(key, value, length);
 #else 
-            return Native.GetProductMetadata(key, value, length);
+            return LexActivatorNative.GetProductMetadata(key, value, length);
 #endif
         }
 
@@ -322,10 +286,10 @@ namespace Cryptlex
         */
         public static int GetLicenseMetadata(string key, StringBuilder value, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetLicenseMetadata_x64(key, value, length) : Native.GetLicenseMetadata(key, value, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetLicenseMetadata_x64(key, value, length) : LexActivatorNative.GetLicenseMetadata(key, value, length);
 #else 
-            return Native.GetLicenseMetadata(key, value, length);
+            return LexActivatorNative.GetLicenseMetadata(key, value, length);
 #endif
         }
 
@@ -343,10 +307,10 @@ namespace Cryptlex
         */
         public static int GetLicenseMeterAttribute(string name, ref uint allowedUses, ref uint totalUses)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetLicenseMeterAttribute_x64(name, ref allowedUses, ref totalUses) : Native.GetLicenseMeterAttribute(name, ref allowedUses, ref totalUses);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetLicenseMeterAttribute_x64(name, ref allowedUses, ref totalUses) : LexActivatorNative.GetLicenseMeterAttribute(name, ref allowedUses, ref totalUses);
 #else 
-            return Native.GetLicenseMeterAttribute(name, ref allowedUses, ref totalUses);
+            return LexActivatorNative.GetLicenseMeterAttribute(name, ref allowedUses, ref totalUses);
 #endif
         }
 
@@ -363,10 +327,10 @@ namespace Cryptlex
         */
         public static int GetLicenseKey(StringBuilder licenseKey, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetLicenseKey_x64(licenseKey, length) : Native.GetLicenseKey(licenseKey, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetLicenseKey_x64(licenseKey, length) : LexActivatorNative.GetLicenseKey(licenseKey, length);
 #else
-            return Native.GetLicenseKey(licenseKey, length);
+            return LexActivatorNative.GetLicenseKey(licenseKey, length);
 #endif
         }
 
@@ -382,10 +346,10 @@ namespace Cryptlex
         */
         public static int GetLicenseExpiryDate(ref uint expiryDate)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.GetLicenseExpiryDate_x64(ref expiryDate) : Native.GetLicenseExpiryDate(ref expiryDate);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.GetLicenseExpiryDate_x64(ref expiryDate) : LexActivatorNative.GetLicenseExpiryDate(ref expiryDate);
 #else 
-            return Native.GetLicenseExpiryDate(ref expiryDate);
+            return LexActivatorNative.GetLicenseExpiryDate(ref expiryDate);
 #endif
         }
 
@@ -403,10 +367,10 @@ namespace Cryptlex
         */
         public static int GetLicenseUserEmail(StringBuilder email, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetLicenseUserEmail_x64(email, length) : Native.GetLicenseUserEmail(email, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetLicenseUserEmail_x64(email, length) : LexActivatorNative.GetLicenseUserEmail(email, length);
 #else
-            return Native.GetLicenseUserEmail(email, length);
+            return LexActivatorNative.GetLicenseUserEmail(email, length);
 #endif
         }
 
@@ -424,10 +388,10 @@ namespace Cryptlex
         */
         public static int GetLicenseUserName(StringBuilder name, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetLicenseUserName_x64(name, length) : Native.GetLicenseUserName(name, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetLicenseUserName_x64(name, length) : LexActivatorNative.GetLicenseUserName(name, length);
 #else
-            return Native.GetLicenseUserName(name, length);
+            return LexActivatorNative.GetLicenseUserName(name, length);
 #endif
         }
 
@@ -445,10 +409,10 @@ namespace Cryptlex
         */
         public static int GetLicenseUserCompany(StringBuilder company, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetLicenseUserCompany_x64(company, length) : Native.GetLicenseUserCompany(company, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetLicenseUserCompany_x64(company, length) : LexActivatorNative.GetLicenseUserCompany(company, length);
 #else
-            return Native.GetLicenseUserCompany(company, length);
+            return LexActivatorNative.GetLicenseUserCompany(company, length);
 #endif
         }
 
@@ -466,10 +430,10 @@ namespace Cryptlex
         */
         public static int GetLicenseUserMetadata(string key, StringBuilder value, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetLicenseUserMetadata_x64(key, value, length) : Native.GetLicenseUserMetadata(key, value, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetLicenseUserMetadata_x64(key, value, length) : LexActivatorNative.GetLicenseUserMetadata(key, value, length);
 #else 
-            return Native.GetLicenseUserMetadata(key, value, length);
+            return LexActivatorNative.GetLicenseUserMetadata(key, value, length);
 #endif
         }
 
@@ -487,10 +451,10 @@ namespace Cryptlex
         */
         public static int GetLicenseType(StringBuilder licenseType, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetLicenseType_x64(licenseType, length) : Native.GetLicenseType(licenseType, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetLicenseType_x64(licenseType, length) : LexActivatorNative.GetLicenseType(licenseType, length);
 #else
-            return Native.GetLicenseType(licenseType, length);
+            return LexActivatorNative.GetLicenseType(licenseType, length);
 #endif
         }
 
@@ -508,10 +472,10 @@ namespace Cryptlex
         */
         public static int GetActivationMetadata(string key, StringBuilder value, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetActivationMetadata_x64(key, value, length) : Native.GetActivationMetadata(key, value, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetActivationMetadata_x64(key, value, length) : LexActivatorNative.GetActivationMetadata(key, value, length);
 #else 
-            return Native.GetActivationMetadata(key, value, length);
+            return LexActivatorNative.GetActivationMetadata(key, value, length);
 #endif
         }
 
@@ -528,10 +492,10 @@ namespace Cryptlex
         */
         public static int GetActivationMeterAttributeUses(string name, ref uint uses)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetActivationMeterAttributeUses_x64(name, ref uses) : Native.GetActivationMeterAttributeUses(name, ref uses);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetActivationMeterAttributeUses_x64(name, ref uses) : LexActivatorNative.GetActivationMeterAttributeUses(name, ref uses);
 #else 
-            return Native.GetActivationMeterAttributeUses(name, ref uses);
+            return LexActivatorNative.GetActivationMeterAttributeUses(name, ref uses);
 #endif
         }
 
@@ -547,10 +511,10 @@ namespace Cryptlex
         */
         public static int GetServerSyncGracePeriodExpiryDate(ref uint expiryDate)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.GetServerSyncGracePeriodExpiryDate_x64(ref expiryDate) : Native.GetServerSyncGracePeriodExpiryDate(ref expiryDate);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.GetServerSyncGracePeriodExpiryDate_x64(ref expiryDate) : LexActivatorNative.GetServerSyncGracePeriodExpiryDate(ref expiryDate);
 #else 
-            return Native.GetServerSyncGracePeriodExpiryDate(ref expiryDate);
+            return LexActivatorNative.GetServerSyncGracePeriodExpiryDate(ref expiryDate);
 #endif
         }
 
@@ -568,10 +532,10 @@ namespace Cryptlex
         */
         public static int GetTrialActivationMetadata(string key, StringBuilder value, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetTrialActivationMetadata_x64(key, value, length) : Native.GetTrialActivationMetadata(key, value, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetTrialActivationMetadata_x64(key, value, length) : LexActivatorNative.GetTrialActivationMetadata(key, value, length);
 #else 
-            return Native.GetTrialActivationMetadata(key, value, length);
+            return LexActivatorNative.GetTrialActivationMetadata(key, value, length);
 #endif
         }
 
@@ -587,10 +551,10 @@ namespace Cryptlex
         */
         public static int GetTrialExpiryDate(ref uint trialExpiryDate)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.GetTrialExpiryDate_x64(ref trialExpiryDate) : Native.GetTrialExpiryDate(ref trialExpiryDate);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.GetTrialExpiryDate_x64(ref trialExpiryDate) : LexActivatorNative.GetTrialExpiryDate(ref trialExpiryDate);
 #else 
-            return Native.GetTrialExpiryDate(ref trialExpiryDate);
+            return LexActivatorNative.GetTrialExpiryDate(ref trialExpiryDate);
 #endif
         }
 
@@ -608,10 +572,10 @@ namespace Cryptlex
         */
         public static int GetTrialId(StringBuilder trialId, int length)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GetTrialId_x64(trialId, length) : Native.GetTrialId(trialId, length);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GetTrialId_x64(trialId, length) : LexActivatorNative.GetTrialId(trialId, length);
 #else
-            return Native.GetTrialId(trialId, length);
+            return LexActivatorNative.GetTrialId(trialId, length);
 #endif
         }
 
@@ -627,10 +591,10 @@ namespace Cryptlex
         */
         public static int GetLocalTrialExpiryDate(ref uint trialExpiryDate)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.GetLocalTrialExpiryDate_x64(ref trialExpiryDate) : Native.GetLocalTrialExpiryDate(ref trialExpiryDate);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.GetLocalTrialExpiryDate_x64(ref trialExpiryDate) : LexActivatorNative.GetLocalTrialExpiryDate(ref trialExpiryDate);
 #else 
-            return Native.GetLocalTrialExpiryDate(ref trialExpiryDate);
+            return LexActivatorNative.GetLocalTrialExpiryDate(ref trialExpiryDate);
 #endif
         }
 
@@ -661,10 +625,10 @@ namespace Cryptlex
             }
             #endif
             callbackList.Add(wrappedCallback);
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.CheckForReleaseUpdate_x64(platform, version, channel, wrappedCallback) : Native.CheckForReleaseUpdate(platform, version, channel, wrappedCallback);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.CheckForReleaseUpdate_x64(platform, version, channel, wrappedCallback) : LexActivatorNative.CheckForReleaseUpdate(platform, version, channel, wrappedCallback);
 #else 
-            return Native.CheckForReleaseUpdate(platform, version, channel, wrappedCallback);
+            return LexActivatorNative.CheckForReleaseUpdate(platform, version, channel, wrappedCallback);
 #endif
         }
 
@@ -684,10 +648,10 @@ namespace Cryptlex
         */
         public static int ActivateLicense()
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.ActivateLicense_x64() : Native.ActivateLicense();
+
+            return IntPtr.Size == 8 ? LexActivatorNative.ActivateLicense_x64() : LexActivatorNative.ActivateLicense();
 #else
-            return Native.ActivateLicense();
+            return LexActivatorNative.ActivateLicense();
 #endif
 
         }
@@ -705,10 +669,10 @@ namespace Cryptlex
         */
         public static int ActivateLicenseOffline(string filePath)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.ActivateLicenseOffline_x64(filePath) : Native.ActivateLicenseOffline(filePath);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.ActivateLicenseOffline_x64(filePath) : LexActivatorNative.ActivateLicenseOffline(filePath);
 #else 
-            return Native.ActivateLicenseOffline(filePath);
+            return LexActivatorNative.ActivateLicenseOffline(filePath);
 #endif
         }
 
@@ -725,10 +689,10 @@ namespace Cryptlex
         */
         public static int GenerateOfflineActivationRequest(string filePath)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GenerateOfflineActivationRequest_x64(filePath) : Native.GenerateOfflineActivationRequest(filePath);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GenerateOfflineActivationRequest_x64(filePath) : LexActivatorNative.GenerateOfflineActivationRequest(filePath);
 #else 
-            return Native.GenerateOfflineActivationRequest(filePath);
+            return LexActivatorNative.GenerateOfflineActivationRequest(filePath);
 #endif
         }
 
@@ -746,10 +710,10 @@ namespace Cryptlex
         */
         public static int DeactivateLicense()
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.DeactivateLicense_x64() : Native.DeactivateLicense();
+
+            return IntPtr.Size == 8 ? LexActivatorNative.DeactivateLicense_x64() : LexActivatorNative.DeactivateLicense();
 #else
-            return Native.DeactivateLicense();
+            return LexActivatorNative.DeactivateLicense();
 #endif
         }
 
@@ -770,10 +734,10 @@ namespace Cryptlex
         */
         public static int GenerateOfflineDeactivationRequest(string filePath)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GenerateOfflineDeactivationRequest_x64(filePath) : Native.GenerateOfflineDeactivationRequest(filePath);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GenerateOfflineDeactivationRequest_x64(filePath) : LexActivatorNative.GenerateOfflineDeactivationRequest(filePath);
 #else 
-            return Native.GenerateOfflineDeactivationRequest(filePath);
+            return LexActivatorNative.GenerateOfflineDeactivationRequest(filePath);
 #endif
         }
 
@@ -801,10 +765,10 @@ namespace Cryptlex
         */
         public static int IsLicenseGenuine()
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.IsLicenseGenuine_x64() : Native.IsLicenseGenuine();
+
+            return IntPtr.Size == 8 ? LexActivatorNative.IsLicenseGenuine_x64() : LexActivatorNative.IsLicenseGenuine();
 #else 
-            return Native.IsLicenseGenuine();
+            return LexActivatorNative.IsLicenseGenuine();
 #endif
         }
 
@@ -825,10 +789,10 @@ namespace Cryptlex
         */
         public static int IsLicenseValid()
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.IsLicenseValid_x64() : Native.IsLicenseValid();
+
+            return IntPtr.Size == 8 ? LexActivatorNative.IsLicenseValid_x64() : LexActivatorNative.IsLicenseValid();
 #else 
-            return Native.IsLicenseValid();
+            return LexActivatorNative.IsLicenseValid();
 #endif
         }
 
@@ -846,10 +810,10 @@ namespace Cryptlex
          */
         public static int ActivateTrial()
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.ActivateTrial_x64() : Native.ActivateTrial();
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.ActivateTrial_x64() : LexActivatorNative.ActivateTrial();
 #else 
-            return Native.ActivateTrial();
+            return LexActivatorNative.ActivateTrial();
 #endif
         }
 
@@ -866,10 +830,10 @@ namespace Cryptlex
         */
         public static int ActivateTrialOffline(string filePath)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.ActivateTrialOffline_x64(filePath) : Native.ActivateTrialOffline(filePath);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.ActivateTrialOffline_x64(filePath) : LexActivatorNative.ActivateTrialOffline(filePath);
 #else 
-            return Native.ActivateTrialOffline(filePath);
+            return LexActivatorNative.ActivateTrialOffline(filePath);
 #endif
         }
 
@@ -886,10 +850,10 @@ namespace Cryptlex
         */
         public static int GenerateOfflineTrialActivationRequest(string filePath)
         {
-#if LA_ANY_CPU
-            return IntPtr.Size == 8 ? Native.GenerateOfflineTrialActivationRequest_x64(filePath) : Native.GenerateOfflineTrialActivationRequest(filePath);
+
+            return IntPtr.Size == 8 ? LexActivatorNative.GenerateOfflineTrialActivationRequest_x64(filePath) : LexActivatorNative.GenerateOfflineTrialActivationRequest(filePath);
 #else 
-            return Native.GenerateOfflineTrialActivationRequest(filePath);
+            return LexActivatorNative.GenerateOfflineTrialActivationRequest(filePath);
 #endif
         }
 
@@ -907,10 +871,10 @@ namespace Cryptlex
         */
         public static int IsTrialGenuine()
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.IsTrialGenuine_x64() : Native.IsTrialGenuine();
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.IsTrialGenuine_x64() : LexActivatorNative.IsTrialGenuine();
 #else 
-            return Native.IsTrialGenuine();
+            return LexActivatorNative.IsTrialGenuine();
 #endif
         }
 
@@ -931,10 +895,10 @@ namespace Cryptlex
         */
         public static int ActivateLocalTrial(uint trialLength)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.ActivateLocalTrial_x64(trialLength) : Native.ActivateLocalTrial(trialLength);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.ActivateLocalTrial_x64(trialLength) : LexActivatorNative.ActivateLocalTrial(trialLength);
 #else 
-            return Native.ActivateLocalTrial(trialLength);
+            return LexActivatorNative.ActivateLocalTrial(trialLength);
 #endif
         }
 
@@ -952,10 +916,10 @@ namespace Cryptlex
         */
         public static int IsLocalTrialGenuine()
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.IsLocalTrialGenuine_x64() : Native.IsLocalTrialGenuine();
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.IsLocalTrialGenuine_x64() : LexActivatorNative.IsLocalTrialGenuine();
 #else 
-            return Native.IsLocalTrialGenuine();
+            return LexActivatorNative.IsLocalTrialGenuine();
 #endif
         }
 
@@ -973,10 +937,10 @@ namespace Cryptlex
         */
         public static int ExtendLocalTrial(uint trialExtensionLength)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.ExtendLocalTrial_x64(trialExtensionLength) : Native.ExtendLocalTrial(trialExtensionLength);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.ExtendLocalTrial_x64(trialExtensionLength) : LexActivatorNative.ExtendLocalTrial(trialExtensionLength);
 #else 
-            return Native.ExtendLocalTrial(trialExtensionLength);
+            return LexActivatorNative.ExtendLocalTrial(trialExtensionLength);
 #endif
         }
 
@@ -996,10 +960,10 @@ namespace Cryptlex
         */
         public static int IncrementActivationMeterAttributeUses(string name, uint increment)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.IncrementActivationMeterAttributeUses_x64(name, increment) : Native.IncrementActivationMeterAttributeUses(name, increment);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.IncrementActivationMeterAttributeUses_x64(name, increment) : LexActivatorNative.IncrementActivationMeterAttributeUses(name, increment);
 #else 
-            return Native.IncrementActivationMeterAttributeUses(name, increment);
+            return LexActivatorNative.IncrementActivationMeterAttributeUses(name, increment);
 #endif
         }
 
@@ -1020,10 +984,10 @@ namespace Cryptlex
         */
         public static int DecrementActivationMeterAttributeUses(string name, uint decrement)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.DecrementActivationMeterAttributeUses_x64(name, decrement) : Native.DecrementActivationMeterAttributeUses(name, decrement);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.DecrementActivationMeterAttributeUses_x64(name, decrement) : LexActivatorNative.DecrementActivationMeterAttributeUses(name, decrement);
 #else 
-            return Native.DecrementActivationMeterAttributeUses(name, decrement);
+            return LexActivatorNative.DecrementActivationMeterAttributeUses(name, decrement);
 #endif
         }
 
@@ -1041,10 +1005,10 @@ namespace Cryptlex
         */
         public static int ResetActivationMeterAttributeUses(string name)
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.ResetActivationMeterAttributeUses_x64(name) : Native.ResetActivationMeterAttributeUses(name);
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.ResetActivationMeterAttributeUses_x64(name) : LexActivatorNative.ResetActivationMeterAttributeUses(name);
 #else 
-            return Native.ResetActivationMeterAttributeUses(name);
+            return LexActivatorNative.ResetActivationMeterAttributeUses(name);
 #endif
         }
 
@@ -1061,10 +1025,10 @@ namespace Cryptlex
         */
         public static int Reset()
         {
-#if LA_ANY_CPU 
-            return IntPtr.Size == 8 ? Native.Reset_x64() : Native.Reset();
+ 
+            return IntPtr.Size == 8 ? LexActivatorNative.Reset_x64() : LexActivatorNative.Reset();
 #else 
-            return Native.Reset();
+            return LexActivatorNative.Reset();
 #endif
         }
 
@@ -1430,287 +1394,6 @@ namespace Cryptlex
         /* To prevent garbage collection of delegate, need to keep a reference */
         static readonly List<CallbackType> callbackList = new List<CallbackType>();
 
-        static class Native
-        {
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetProductFile(string filePath);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetProductData(string productData);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetProductId(string productId, PermissionFlags flags);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetLicenseKey(string licenseKey);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetLicenseUserCredential(string email, string password);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetLicenseCallback(CallbackType callback);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetActivationMetadata(string key, string value);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetTrialActivationMetadata(string key, string value);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetAppVersion(string appVersion);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetNetworkProxy(string proxy);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetProductMetadata(string key, StringBuilder value, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseMetadata(string key, StringBuilder value, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseMeterAttribute(string name, ref uint allowedUses, ref uint totalUses);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseKey(StringBuilder licenseKey, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseExpiryDate(ref uint expiryDate);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseUserEmail(StringBuilder email, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseUserName(StringBuilder name, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseUserCompany(StringBuilder company, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseUserMetadata(string key, StringBuilder value, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseType(StringBuilder licenseType, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetActivationMetadata(string key, StringBuilder value, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetActivationMeterAttributeUses(string name, ref uint uses);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetServerSyncGracePeriodExpiryDate(ref uint expiryDate);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetTrialActivationMetadata(string key, StringBuilder value, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetTrialExpiryDate(ref uint trialExpiryDate);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetTrialId(StringBuilder trialId, int length);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLocalTrialExpiryDate(ref uint trialExpiryDate);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int CheckForReleaseUpdate(string platform, string version, string channel, CallbackType callback);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ActivateLicense();
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ActivateLicenseOffline(string filePath);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GenerateOfflineActivationRequest(string filePath);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int DeactivateLicense();
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GenerateOfflineDeactivationRequest(string filePath);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IsLicenseGenuine();
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IsLicenseValid();
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ActivateTrial();
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ActivateTrialOffline(string filePath);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GenerateOfflineTrialActivationRequest(string filePath);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IsTrialGenuine();
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ActivateLocalTrial(uint trialLength);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IsLocalTrialGenuine();
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ExtendLocalTrial(uint trialExtensionLength);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IncrementActivationMeterAttributeUses(string name, uint increment);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int DecrementActivationMeterAttributeUses(string name, uint decrement);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ResetActivationMeterAttributeUses(string name);
-
-            [DllImport(DLL_FILE_NAME, CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int Reset();
-
-#if LA_ANY_CPU
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetProductFile", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetProductFile_x64(string filePath);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetProductData", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetProductData_x64(string productData);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetProductId", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetProductId_x64(string productId, PermissionFlags flags);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetLicenseKey", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetLicenseKey_x64(string licenseKey);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetLicenseUserCredential", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetLicenseUserCredential_x64(string email, string password);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetLicenseCallback", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetLicenseCallback_x64(CallbackType callback);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetActivationMetadata", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetActivationMetadata_x64(string key, string value);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetTrialActivationMetadata", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetTrialActivationMetadata_x64(string key, string value);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetAppVersion", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetAppVersion_x64(string appVersion);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "SetNetworkProxy", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int SetNetworkProxy_x64(string proxy);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetProductMetadata", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetProductMetadata_x64(string key, StringBuilder value, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseMetadata", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseMetadata_x64(string key, StringBuilder value, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseMeterAttribute", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseMeterAttribute_x64(string name, ref uint allowedUses, ref uint totalUses);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseKey", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseKey_x64(StringBuilder licenseKey, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseExpiryDate", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseExpiryDate_x64(ref uint expiryDate);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseUserEmail", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseUserEmail_x64(StringBuilder email, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseUserName", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseUserName_x64(StringBuilder name, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseUserCompany", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseUserCompany_x64(StringBuilder company, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseUserMetadata", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseUserMetadata_x64(string key, StringBuilder value, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLicenseType", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLicenseType_x64(StringBuilder licenseType, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetActivationMetadata", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetActivationMetadata_x64(string key, StringBuilder value, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetActivationMeterAttributeUses", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetActivationMeterAttributeUses_x64(string name, ref uint uses);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetServerSyncGracePeriodExpiryDate", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetServerSyncGracePeriodExpiryDate_x64(ref uint expiryDate);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetTrialActivationMetadata", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetTrialActivationMetadata_x64(string key, StringBuilder value, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetTrialExpiryDate", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetTrialExpiryDate_x64(ref uint trialExpiryDate);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetTrialId", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetTrialId_x64(StringBuilder trialId, int length);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GetLocalTrialExpiryDate", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GetLocalTrialExpiryDate_x64(ref uint trialExpiryDate);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "CheckForReleaseUpdate", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int CheckForReleaseUpdate_x64(string platform, string version, string channel, CallbackType callback);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ActivateLicense", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ActivateLicense_x64();
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ActivateLicenseOffline", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ActivateLicenseOffline_x64(string filePath);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GenerateOfflineActivationRequest", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GenerateOfflineActivationRequest_x64(string filePath);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "DeactivateLicense", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int DeactivateLicense_x64();
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GenerateOfflineDeactivationRequest", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GenerateOfflineDeactivationRequest_x64(string filePath);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "IsLicenseGenuine", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IsLicenseGenuine_x64();
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "IsLicenseValid", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IsLicenseValid_x64();
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ActivateTrial", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ActivateTrial_x64();
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ActivateTrialOffline", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ActivateTrialOffline_x64(string filePath);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "GenerateOfflineTrialActivationRequest", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int GenerateOfflineTrialActivationRequest_x64(string filePath);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "IsTrialGenuine", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IsTrialGenuine_x64();
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ActivateLocalTrial", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ActivateLocalTrial_x64(uint trialLength);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "IsLocalTrialGenuine", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IsLocalTrialGenuine_x64();
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ExtendLocalTrial", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ExtendLocalTrial_x64(uint trialExtensionLength);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "IncrementActivationMeterAttributeUses", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int IncrementActivationMeterAttributeUses_x64(string name, uint increment);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "DecrementActivationMeterAttributeUses", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int DecrementActivationMeterAttributeUses_x64(string name, uint decrement);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "ResetActivationMeterAttributeUses", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ResetActivationMeterAttributeUses_x64(string name);
-
-            [DllImport(DLL_FILE_NAME_X64, CharSet = CharSet.Unicode, EntryPoint = "Reset", CallingConvention = CallingConvention.Cdecl)]
-            public static extern int Reset_x64();
-            
-#endif
-        }
+        
     }
 }
