@@ -28,7 +28,7 @@ namespace Sample
                     this.activateTrialBtn.Enabled = false;
 
                     // Checking for software release update
-                    LexActivator.CheckForReleaseUpdate("windows", "1.0.0", "stable", SoftwareReleaseUpdateCallback);
+                    // LexActivator.CheckForReleaseUpdate("windows", "1.0.0", "stable", SoftwareReleaseUpdateCallback);
                     return;
                 }
                 status = LexActivator.IsTrialGenuine();
